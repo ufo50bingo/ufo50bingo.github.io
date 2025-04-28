@@ -15,7 +15,7 @@ enum State {
 
 type Props = { goal: string; onNext: () => any };
 
-// main goal card
+// main goal card - dummy update
 export default function Goal({ goal, onNext }: Props) {
   const [dummyState, setDummyState] = useState(0);
 

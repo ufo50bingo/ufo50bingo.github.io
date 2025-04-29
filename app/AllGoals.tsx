@@ -159,7 +159,7 @@ export default function AllGoals({ onTryGoal }: Props) {
                 <Table.Td>{stats?.count ?? 0}</Table.Td>
                 <Table.Td>
                   <ActionIcon onClick={() => onTryGoal(goal.name)}>
-                    <IconPlayerPlay size={12} />
+                    <IconPlayerPlay size={16} />
                   </ActionIcon>
                 </Table.Td>
               </Table.Tr>

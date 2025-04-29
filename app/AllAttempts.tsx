@@ -1,7 +1,7 @@
 'use client';
 
-import { SetStateAction, useMemo, useState } from 'react';
-import { IconBrandMantine, IconRefresh, IconX } from '@tabler/icons-react';
+import { useState } from 'react';
+import { IconPlayerPlay, IconX } from '@tabler/icons-react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { ActionIcon, Button, Group, Modal, Table, Tooltip } from '@mantine/core';
 import { AttemptRow, db } from './db';
@@ -56,15 +56,15 @@ export default function AllAttempts({ onRetryGoal }: Props) {
                   })}
                 </Table.Td>
                 <Table.Td>
-                  <Group>
+                  <Group gap={4} wrap="nowrap">
                     <Tooltip label="Attempt this goal again">
                       <ActionIcon>
-                        <IconRefresh onClick={() => onRetryGoal(attempt.goal)} />
+                        <IconPlayerPlay size={16} onClick={() => onRetryGoal(attempt.goal)} />
                       </ActionIcon>
                     </Tooltip>
                     <Tooltip label="Delete this attempt">
                       <ActionIcon onClick={() => setDeletingAttempt(attempt)} color="red">
-                        <IconX />
+                        <IconX size={16} />
                       </ActionIcon>
                     </Tooltip>
                   </Group>

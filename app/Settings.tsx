@@ -1,11 +1,23 @@
 'use client';
 
-import { Container, Text } from '@mantine/core';
+import { IconMoon, IconSun } from '@tabler/icons-react';
+import { Button, Container, Stack, Text, useMantineColorScheme } from '@mantine/core';
 
 export default function Practice() {
+  const { colorScheme, setColorScheme } = useMantineColorScheme();
   return (
     <Container my="md">
-      <Text>Come back later!</Text>
+      <Stack>
+        <Button
+          leftSection={
+            colorScheme === 'dark' ? <IconSun stroke={1.5} /> : <IconMoon stroke={1.5} />
+          }
+          onClick={() => setColorScheme(colorScheme === 'dark' ? 'light' : 'dark')}
+        >
+          {colorScheme === 'dark' ? 'Change to light theme' : 'Change to dark theme'}
+        </Button>
+        <Text>More settings later!</Text>
+      </Stack>
     </Container>
   );
 }

@@ -50,6 +50,7 @@ export default function ImportCSV() {
                 }
                 const rows = await parseCSV(csv);
                 await updateDB(rows, behavior === 'merge');
+                setIsImporting(false);
               }}
               color="green"
             >

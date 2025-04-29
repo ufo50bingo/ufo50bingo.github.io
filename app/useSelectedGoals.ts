@@ -5,6 +5,7 @@ import { SORTED_FLAT_GOALS } from './goals';
 
 export default function useSelectedGoals(): Set<string> {
   const unselectedGoals = useLiveQuery(() => db.unselectedGoals.toArray());
+  console.log(unselectedGoals);
   return useMemo(() => {
     const unselectedGoalsSet = new Set(unselectedGoals?.map((row) => row.goal) ?? []);
 

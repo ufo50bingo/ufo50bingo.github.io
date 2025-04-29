@@ -13,12 +13,31 @@ export default function GoalSelection() {
   const attempts = useLiveQuery(() => db.attempts.toArray());
   const goalStats = useGoalStats(attempts);
   const selectedGoals = useSelectedGoals();
+  const allChecked = SORTED_FLAT_GOALS.every((goal) => selectedGoals.has(goal.name));
+  const allUnchecked = SORTED_FLAT_GOALS.every((goal) => !selectedGoals.has(goal.name));
   return (
     <Container my="md">
       <Table striped highlightOnHover withTableBorder>
         <Table.Thead>
           <Table.Tr>
-            <Table.Th />
+            <Table.Th>
+              <Checkbox
+                checked={allChecked}
+                indeterminate={!allChecked && !allUnchecked}
+                onChange={async (event) => {
+                  console.log(event.currentTarget.checked);
+                  if (event.currentTarget.checked) {
+                    await db.unselectedGoals.clear();
+                  } else {
+                    await db.unselectedGoals.bulkAdd(
+                      SORTED_FLAT_GOALS.filter((goal) => selectedGoals.has(goal.name)).map(
+                        (goal) => ({ goal: goal.name })
+                      )
+                    );
+                  }
+                }}
+              />
+            </Table.Th>
             <Table.Th>Goal</Table.Th>
             <Table.Th>Game</Table.Th>
             <Table.Th>Difficulty</Table.Th>
@@ -34,7 +53,6 @@ export default function GoalSelection() {
               <Table.Tr key={goal.name}>
                 <Table.Td>
                   <Checkbox
-                    aria-label="Select row"
                     checked={selectedGoals.has(goal.name)}
                     onChange={async (event) => {
                       if (event.currentTarget.checked) {

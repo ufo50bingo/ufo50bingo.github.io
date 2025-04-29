@@ -5,20 +5,20 @@ import { Container, Stack } from '@mantine/core';
 import AllAttempts from './AllAttempts';
 import Goal from './Goal';
 import { RAW_GOALS, TGoal } from './goals';
+import useSelectedGoals from './useSelectedGoals';
 
-function getRandomGoal(): TGoal {
-  const groupIdx = Math.floor(Math.random() * RAW_GOALS.length);
-  const group = RAW_GOALS[groupIdx];
-  const goalIdx = Math.floor(Math.random() * group.length);
-  return group[goalIdx];
+function getRandomGoal(goals: Set<string>): string {
+  const items = Array.from(goals);
+  return items[Math.floor(Math.random() * items.length)];
 }
 
 export default function Practice() {
-  const [goal, setGoal] = useState(getRandomGoal().name);
+  const selectedGoals = useSelectedGoals();
+  const [goal, setGoal] = useState(getRandomGoal(selectedGoals));
   return (
     <Container my="md">
       <Stack>
-        <Goal key={goal} goal={goal} onNext={() => setGoal(getRandomGoal().name)} />
+        <Goal key={goal} goal={goal} onNext={() => setGoal(getRandomGoal(selectedGoals))} />
         <AllAttempts onRetryGoal={(newGoal) => setGoal(newGoal)} />
       </Stack>
     </Container>

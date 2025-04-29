@@ -2,6 +2,7 @@
 
 import { IconMoon, IconSun } from '@tabler/icons-react';
 import { Button, Container, Stack, Text, useMantineColorScheme } from '@mantine/core';
+import ImportCSV from './ImportCSV';
 
 export default function Practice() {
   const { colorScheme, setColorScheme } = useMantineColorScheme();
@@ -16,6 +17,7 @@ export default function Practice() {
         >
           {colorScheme === 'dark' ? 'Change to light theme' : 'Change to dark theme'}
         </Button>
+        <ImportCSV />
         <Text>More settings later!</Text>
       </Stack>
     </Container>

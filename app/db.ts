@@ -1,10 +1,13 @@
 import Dexie, { type EntityTable } from 'dexie';
 
-interface AttemptRow {
-  id: number,
+interface Attempt {
   goal: string,
   startTime: number,
   duration: number,
+}
+
+interface AttemptRow extends Attempt {
+  id: number,
 }
 
 const db = new Dexie('UFO50BingoDatabase') as Dexie & {
@@ -18,5 +21,5 @@ db.version(1).stores({
   attempts: '++id, goal, startTime, duration',
 });
 
-export type { AttemptRow };
+export type { Attempt, AttemptRow };
 export { db };

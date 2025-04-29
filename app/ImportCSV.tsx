@@ -88,7 +88,6 @@ async function parseCSV(csv: File): Promise<Attempt[]> {
 }
 
 async function updateDB(csvRows: Attempt[], shouldMerge: boolean): Promise<void> {
-  console.log(csvRows);
   if (shouldMerge) {
     const existingRows = await db.attempts.toArray();
     const existingRowsJsonSet = new Set();

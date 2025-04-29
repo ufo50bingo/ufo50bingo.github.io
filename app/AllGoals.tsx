@@ -1,15 +1,20 @@
 'use client';
 
 import { useState } from 'react';
+import { IconPlayerPlay } from '@tabler/icons-react';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { Checkbox, Container, Table } from '@mantine/core';
+import { ActionIcon, Checkbox, Container, Table } from '@mantine/core';
 import { db } from './db';
 import Duration from './Duration';
 import { SORTED_FLAT_GOALS } from './goals';
 import useGoalStats from './useGoalStats';
 import useSelectedGoals from './useSelectedGoals';
 
-export default function GoalSelection() {
+type Props = {
+  onTryGoal: (goal: string) => void;
+};
+
+export default function AllGoals({ onTryGoal }: Props) {
   const attempts = useLiveQuery(() => db.attempts.toArray());
   const goalStats = useGoalStats(attempts);
   const selectedGoals = useSelectedGoals();
@@ -25,7 +30,6 @@ export default function GoalSelection() {
                 checked={allChecked}
                 indeterminate={!allChecked && !allUnchecked}
                 onChange={async (event) => {
-                  console.log(event.currentTarget.checked);
                   if (event.currentTarget.checked) {
                     await db.unselectedGoals.clear();
                   } else {
@@ -43,6 +47,7 @@ export default function GoalSelection() {
             <Table.Th>Difficulty</Table.Th>
             <Table.Th>Average Time</Table.Th>
             <Table.Th>Tries</Table.Th>
+            <Table.Th>Try now</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
@@ -70,6 +75,11 @@ export default function GoalSelection() {
                   {averageDuration == null ? '-' : <Duration duration={averageDuration} />}
                 </Table.Td>
                 <Table.Td>{stats?.count ?? 0}</Table.Td>
+                <Table.Td>
+                  <ActionIcon onClick={() => onTryGoal(goal.name)}>
+                    <IconPlayerPlay size={12} />
+                  </ActionIcon>
+                </Table.Td>
               </Table.Tr>
             );
           })}

@@ -20,7 +20,6 @@ export default function Practice() {
         </Button>
         <ExportCSV />
         <ImportCSV />
-        <Text>More settings later!</Text>
       </Stack>
     </Container>
   );

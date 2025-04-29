@@ -3,18 +3,18 @@
 import { useState } from 'react';
 import { Container, Stack } from '@mantine/core';
 import AllAttempts from './AllAttempts';
+import getRandomGoal from './getRandomGoal';
 import Goal from './Goal';
 import { RAW_GOALS, TGoal } from './goals';
 import useSelectedGoals from './useSelectedGoals';
 
-function getRandomGoal(goals: Set<string>): string {
-  const items = Array.from(goals);
-  return items[Math.floor(Math.random() * items.length)];
-}
+type Props = {
+  goal: string;
+  setGoal: (goal: string) => void;
+};
 
-export default function Practice() {
+export default function Practice({ goal, setGoal }: Props) {
   const selectedGoals = useSelectedGoals();
-  const [goal, setGoal] = useState(getRandomGoal(selectedGoals));
   return (
     <Container my="md">
       <Stack>

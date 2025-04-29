@@ -1,20 +1,10 @@
 'use client';
 
-import { useState } from 'react';
-import { IconDeviceGamepad, IconSettings } from '@tabler/icons-react';
-import { Container, Stack, Tabs } from '@mantine/core';
-import AllAttempts from './AllAttempts';
-import Goal from './Goal';
-import { GOALS, TGoal } from './goals';
+import { IconDeviceGamepad, IconFilter, IconSettings } from '@tabler/icons-react';
+import { Tabs } from '@mantine/core';
+import GoalSelection from './GoalSelection';
 import Practice from './Practice';
 import Settings from './Settings';
-
-function getRandomGoal(): TGoal {
-  const groupIdx = Math.floor(Math.random() * GOALS.length);
-  const group = GOALS[groupIdx];
-  const goalIdx = Math.floor(Math.random() * group.length);
-  return group[goalIdx];
-}
 
 export default function HomePage() {
   return (
@@ -23,6 +13,9 @@ export default function HomePage() {
         <Tabs.Tab value="practice" leftSection={<IconDeviceGamepad size={12} />}>
           Practice
         </Tabs.Tab>
+        <Tabs.Tab value="goalSelection" leftSection={<IconFilter size={12} />}>
+          Goal Selection
+        </Tabs.Tab>
         <Tabs.Tab value="settings" leftSection={<IconSettings size={12} />}>
           Settings
         </Tabs.Tab>
@@ -30,6 +23,9 @@ export default function HomePage() {
 
       <Tabs.Panel value="practice">
         <Practice />
+      </Tabs.Panel>
+      <Tabs.Panel value="goalSelection">
+        <GoalSelection />
       </Tabs.Panel>
       <Tabs.Panel value="settings">
         <Settings />

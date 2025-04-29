@@ -4,11 +4,11 @@ import { useState } from 'react';
 import { Container, Stack } from '@mantine/core';
 import AllAttempts from './AllAttempts';
 import Goal from './Goal';
-import { GOALS, TGoal } from './goals';
+import { RAW_GOALS, TGoal } from './goals';
 
 function getRandomGoal(): TGoal {
-  const groupIdx = Math.floor(Math.random() * GOALS.length);
-  const group = GOALS[groupIdx];
+  const groupIdx = Math.floor(Math.random() * RAW_GOALS.length);
+  const group = RAW_GOALS[groupIdx];
   const goalIdx = Math.floor(Math.random() * group.length);
   return group[goalIdx];
 }

@@ -6,6 +6,7 @@ import { useLiveQuery } from 'dexie-react-hooks';
 import { ActionIcon, Button, Group, Modal, Table, Tooltip } from '@mantine/core';
 import { AttemptRow, db } from './db';
 import Duration from './Duration';
+import useGoalStats from './useGoalStats';
 
 type Props = {
   onRetryGoal: (goal: string) => any;
@@ -14,18 +15,7 @@ type Props = {
 export default function AllAttempts({ onRetryGoal }: Props) {
   const attempts = useLiveQuery(() => db.attempts.orderBy('startTime').reverse().toArray());
 
-  const goalToTimes = useMemo(() => {
-    const goalToTimes = new Map<string, number[]>();
-    attempts?.forEach((attempt) => {
-      const existingTimes = goalToTimes.get(attempt.goal);
-      if (existingTimes == null) {
-        goalToTimes.set(attempt.goal, [attempt.duration]);
-      } else {
-        existingTimes.push(attempt.duration);
-      }
-    });
-    return goalToTimes;
-  }, [attempts]);
+  const goalStats = useGoalStats(attempts);
 
   const [deletingAttempt, setDeletingAttempt] = useState<AttemptRow | null>(null);
 
@@ -44,7 +34,8 @@ export default function AllAttempts({ onRetryGoal }: Props) {
         </Table.Thead>
         <Table.Tbody>
           {attempts?.map((attempt) => {
-            const allTimes = goalToTimes.get(attempt.goal) ?? [];
+            const stats = goalStats.get(attempt.goal);
+            const averageDuration = stats?.averageDuration;
             return (
               <Table.Tr key={attempt.id}>
                 <Table.Td>{attempt.goal}</Table.Td>
@@ -52,11 +43,9 @@ export default function AllAttempts({ onRetryGoal }: Props) {
                   <Duration duration={attempt.duration} />
                 </Table.Td>
                 <Table.Td>
-                  <Duration
-                    duration={allTimes.reduce((acc, val) => acc + val, 0) / allTimes.length}
-                  />
+                  {averageDuration == null ? '-' : <Duration duration={averageDuration} />}
                 </Table.Td>
-                <Table.Td>{allTimes.length}</Table.Td>
+                <Table.Td>{stats?.count ?? 0}</Table.Td>
                 <Table.Td>
                   {new Date(attempt.startTime).toLocaleString(undefined, {
                     month: 'numeric',

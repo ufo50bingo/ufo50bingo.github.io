@@ -742,13 +742,16 @@ export const RAW_GOALS: TGoal[][] = [
   ],
 ];
 
+export function compareByDifficulty(a: TGoal, b: TGoal): number {
+  return ORDERED_DIFFICULTY.indexOf(a.types[1]) - ORDERED_DIFFICULTY.indexOf(b.types[1]);
+}
+
 export const SORTED_FLAT_GOALS: TGoal[] = RAW_GOALS.flat().toSorted((a, b) => {
   const gameDiff = ORDERED_GAMES.indexOf(a.types[0]) - ORDERED_GAMES.indexOf(b.types[0]);
   if (gameDiff !== 0) {
     return gameDiff;
   }
-  const difficultyDiff =
-    ORDERED_DIFFICULTY.indexOf(a.types[1]) - ORDERED_DIFFICULTY.indexOf(b.types[1]);
+  const difficultyDiff = compareByDifficulty(a, b);
   if (difficultyDiff != 0) {
     return difficultyDiff;
   }

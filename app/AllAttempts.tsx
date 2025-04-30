@@ -26,7 +26,8 @@ export default function AllAttempts({ onRetryGoal }: Props) {
           <Table.Tr>
             <Table.Th>Goal</Table.Th>
             <Table.Th>Time</Table.Th>
-            <Table.Th>Average Time</Table.Th>
+            <Table.Th>Average</Table.Th>
+            <Table.Th>Best</Table.Th>
             <Table.Th>Tries</Table.Th>
             <Table.Th>Started At</Table.Th>
             <Table.Th></Table.Th>
@@ -36,6 +37,7 @@ export default function AllAttempts({ onRetryGoal }: Props) {
           {attempts?.map((attempt) => {
             const stats = goalStats.get(attempt.goal);
             const averageDuration = stats?.averageDuration;
+            const bestDuration = stats?.bestDuration;
             return (
               <Table.Tr key={attempt.id}>
                 <Table.Td>{attempt.goal}</Table.Td>
@@ -44,6 +46,9 @@ export default function AllAttempts({ onRetryGoal }: Props) {
                 </Table.Td>
                 <Table.Td>
                   {averageDuration == null ? '-' : <Duration duration={averageDuration} />}
+                </Table.Td>
+                <Table.Td>
+                  {bestDuration == null ? '-' : <Duration duration={bestDuration} />}
                 </Table.Td>
                 <Table.Td>{stats?.count ?? 0}</Table.Td>
                 <Table.Td>

@@ -4,6 +4,7 @@ import { AttemptRow } from './db';
 type GoalStats = {
   count: number;
   averageDuration: number;
+  bestDuration: number;
 };
 
 export default function useGoalStats(attempts: AttemptRow[] | undefined): Map<string, GoalStats> {
@@ -22,6 +23,7 @@ export default function useGoalStats(attempts: AttemptRow[] | undefined): Map<st
       goalToStats.set(goal, {
         count: times.length,
         averageDuration: times.reduce((acc, val) => acc + val, 0) / times.length,
+        bestDuration: Math.min(...times),
       });
     });
     return goalToStats;

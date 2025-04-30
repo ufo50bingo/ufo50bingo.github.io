@@ -46,7 +46,7 @@ export default function AllGoals({ onTryGoal }: Props) {
       case 'difficulty':
         const sortedByDifficulty = SORTED_FLAT_GOALS.toSorted(compareByDifficulty);
         return reverseSortDirection ? sortedByDifficulty.toReversed() : sortedByDifficulty;
-      case 'averageDuration':
+      case 'average':
         const sortedByAverageDuration = SORTED_FLAT_GOALS.toSorted((a, b) => {
           const aDur = goalStats.get(a.name)?.averageDuration;
           const bDur = goalStats.get(b.name)?.averageDuration;
@@ -65,8 +65,24 @@ export default function AllGoals({ onTryGoal }: Props) {
         return reverseSortDirection
           ? sortedByAverageDuration.toReversed()
           : sortedByAverageDuration;
+      case 'best':
+        const sortedByBestDuration = SORTED_FLAT_GOALS.toSorted((a, b) => {
+          const aDur = goalStats.get(a.name)?.bestDuration;
+          const bDur = goalStats.get(b.name)?.bestDuration;
+          if (aDur == null || bDur == null) {
+            if (aDur == null && bDur != null) {
+              return 1;
+            } else if (aDur != null && bDur == null) {
+              return -1;
+            } else {
+              return 0;
+            }
+          } else {
+            return aDur - bDur;
+          }
+        });
+        return reverseSortDirection ? sortedByBestDuration.toReversed() : sortedByBestDuration;
       case 'count':
-      case 'averageDuration':
         const sortedByCount = SORTED_FLAT_GOALS.toSorted((a, b) => {
           const aCount = goalStats.get(a.name)?.count ?? 0;
           const bCount = goalStats.get(b.name)?.count ?? 0;
@@ -116,11 +132,18 @@ export default function AllGoals({ onTryGoal }: Props) {
               Difficulty
             </SortableTh>
             <SortableTh
-              sorted={sortBy === 'averageDuration'}
+              sorted={sortBy === 'average'}
               reversed={reverseSortDirection}
-              onSort={() => setSorting('averageDuration')}
+              onSort={() => setSorting('average')}
             >
-              Average Time
+              Average
+            </SortableTh>
+            <SortableTh
+              sorted={sortBy === 'best'}
+              reversed={reverseSortDirection}
+              onSort={() => setSorting('best')}
+            >
+              Best
             </SortableTh>
             <SortableTh
               sorted={sortBy === 'count'}
@@ -136,6 +159,7 @@ export default function AllGoals({ onTryGoal }: Props) {
           {sortedRows.map((goal) => {
             const stats = goalStats.get(goal.name);
             const averageDuration = stats?.averageDuration;
+            const bestDuration = stats?.bestDuration;
             return (
               <Table.Tr key={goal.name}>
                 <Table.Td>
@@ -155,6 +179,9 @@ export default function AllGoals({ onTryGoal }: Props) {
                 <Table.Td>{goal.types[1]}</Table.Td>
                 <Table.Td>
                   {averageDuration == null ? '-' : <Duration duration={averageDuration} />}
+                </Table.Td>
+                <Table.Td>
+                  {bestDuration == null ? '-' : <Duration duration={bestDuration} />}
                 </Table.Td>
                 <Table.Td>{stats?.count ?? 0}</Table.Td>
                 <Table.Td>

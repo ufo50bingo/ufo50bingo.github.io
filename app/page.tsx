@@ -14,10 +14,11 @@ import useSelectedGoals from './useSelectedGoals';
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState<string | null>('practice');
   const [nextGoalChoice, setNextGoalChoice] = useState(NextGoalChoice.RANDOM);
-  const attempts = useLiveQuery(() => db.attempts.toArray());
-  const goalStats = useGoalStats(attempts);
 
+  const attempts = useLiveQuery(() => db.attempts.orderBy('startTime').reverse().toArray()) ?? [];
+  const goalStats = useGoalStats(attempts);
   const selectedGoals = useSelectedGoals();
+
   const getRandomGoal = useCallback(() => {
     switch (nextGoalChoice) {
       case NextGoalChoice.PREFER_FEWER_ATTEMPTS:
@@ -44,10 +45,19 @@ export default function HomePage() {
       </Tabs.List>
 
       <Tabs.Panel value="practice">
-        <Practice getRandomGoal={getRandomGoal} goal={goal} setGoal={(goal) => setGoal(goal)} />
+        <Practice
+          attempts={attempts}
+          goalStats={goalStats}
+          getRandomGoal={getRandomGoal}
+          goal={goal}
+          setGoal={(goal) => setGoal(goal)}
+        />
       </Tabs.Panel>
       <Tabs.Panel value="allGoals">
         <AllGoals
+          attempts={attempts}
+          goalStats={goalStats}
+          selectedGoals={selectedGoals}
           onTryGoal={(goal) => {
             setGoal(goal);
             setActiveTab('practice');

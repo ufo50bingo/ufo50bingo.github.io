@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from 'react';
 import { IconChevronDown, IconChevronUp, IconPlayerPlay, IconSelector } from '@tabler/icons-react';
-import { useLiveQuery } from 'dexie-react-hooks';
 import {
   ActionIcon,
   Center,
@@ -13,20 +12,19 @@ import {
   Text,
   UnstyledButton,
 } from '@mantine/core';
-import { db } from './db';
+import { AttemptRow, db } from './db';
 import Duration from './Duration';
 import { compareByDifficulty, SORTED_FLAT_GOALS } from './goals';
-import useGoalStats from './useGoalStats';
-import useSelectedGoals from './useSelectedGoals';
+import { GoalStats } from './useGoalStats';
 
 type Props = {
+  attempts: AttemptRow[];
+  goalStats: Map<string, GoalStats>;
+  selectedGoals: Set<string>;
   onTryGoal: (goal: string) => void;
 };
 
-export default function AllGoals({ onTryGoal }: Props) {
-  const attempts = useLiveQuery(() => db.attempts.toArray());
-  const goalStats = useGoalStats(attempts);
-  const selectedGoals = useSelectedGoals();
+export default function AllGoals({ attempts, goalStats, selectedGoals, onTryGoal }: Props) {
   const allChecked = SORTED_FLAT_GOALS.every((goal) => selectedGoals.has(goal.name));
   const allUnchecked = SORTED_FLAT_GOALS.every((goal) => !selectedGoals.has(goal.name));
 

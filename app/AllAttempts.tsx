@@ -1,23 +1,26 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { IconPlayerPlay, IconX } from '@tabler/icons-react';
-import { useLiveQuery } from 'dexie-react-hooks';
-import { ActionIcon, Button, Group, Modal, Table, Tooltip } from '@mantine/core';
+import { ActionIcon, Anchor, Button, Group, Modal, Table, Tooltip } from '@mantine/core';
 import { AttemptRow, db } from './db';
 import Duration from './Duration';
-import useGoalStats from './useGoalStats';
+import { GoalStats } from './useGoalStats';
 
 type Props = {
+  attempts: AttemptRow[];
+  goalStats: Map<string, GoalStats>;
   onRetryGoal: (goal: string) => any;
 };
 
-export default function AllAttempts({ onRetryGoal }: Props) {
-  const attempts = useLiveQuery(() => db.attempts.orderBy('startTime').reverse().toArray());
-
-  const goalStats = useGoalStats(attempts);
-
+export default function AllAttempts({ attempts, goalStats, onRetryGoal }: Props) {
   const [deletingAttempt, setDeletingAttempt] = useState<AttemptRow | null>(null);
+  const [displayedCount, setDisplayedCount] = useState<number>(20);
+
+  const displayedAttempts = useMemo(
+    () => attempts.slice(0, displayedCount),
+    [attempts, displayedCount]
+  );
 
   return (
     <>
@@ -34,7 +37,7 @@ export default function AllAttempts({ onRetryGoal }: Props) {
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
-          {attempts?.map((attempt) => {
+          {displayedAttempts?.map((attempt) => {
             const stats = goalStats.get(attempt.goal);
             const averageDuration = stats?.averageDuration;
             const bestDuration = stats?.bestDuration;
@@ -77,6 +80,17 @@ export default function AllAttempts({ onRetryGoal }: Props) {
               </Table.Tr>
             );
           })}
+          {displayedCount < attempts.length && (
+            <Table.Tr>
+              <Table.Td colSpan={7}>
+                <Anchor
+                  onClick={() => setDisplayedCount((prevDisplayedCount) => prevDisplayedCount + 20)}
+                >
+                  Show more... ({attempts.length - displayedCount} remaining)
+                </Anchor>
+              </Table.Td>
+            </Table.Tr>
+          )}
         </Table.Tbody>
       </Table>
       <Modal

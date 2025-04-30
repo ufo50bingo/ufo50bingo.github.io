@@ -6,7 +6,7 @@ import { Button } from '@mantine/core';
 import { Attempt, db } from './db';
 
 export default function ExportCSV() {
-  return <Button onClick={exportCsv}>Export history to CSV</Button>;
+  return <Button onClick={exportCsv}>Export</Button>;
 }
 
 async function exportCsv(): Promise<void> {

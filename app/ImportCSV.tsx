@@ -22,7 +22,7 @@ export default function ImportCSV() {
 
   return (
     <>
-      <Button onClick={() => setIsImporting(true)}>Import history from CSV</Button>
+      <Button onClick={() => setIsImporting(true)}>Import</Button>
       <Modal
         centered={true}
         onClose={() => setIsImporting(false)}

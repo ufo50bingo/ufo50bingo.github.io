@@ -1,6 +1,14 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import {
+  IconArrowForward,
+  IconCircleCheck,
+  IconPlayerPause,
+  IconPlayerPlay,
+  IconRefresh,
+  IconReload,
+} from '@tabler/icons-react';
 import { Button, Card, Stack, Text } from '@mantine/core';
 import { db } from './db';
 import Duration from './Duration';
@@ -37,6 +45,7 @@ export default function Goal({ goal, onNext }: Props) {
 
   const doneButton = (
     <Button
+      leftSection={<IconCircleCheck />}
       color="green"
       onClick={() => {
         if (state === State.RUNNING) {
@@ -64,8 +73,11 @@ export default function Goal({ goal, onNext }: Props) {
     case State.NOT_STARTED:
       content = (
         <>
-          <Button onClick={onNext}>Skip</Button>
+          <Button leftSection={<IconRefresh />} onClick={onNext}>
+            Skip
+          </Button>
           <Button
+            leftSection={<IconPlayerPlay />}
             color="green"
             onClick={() => {
               startTimer();
@@ -87,6 +99,7 @@ export default function Goal({ goal, onNext }: Props) {
             />
           </Text>
           <Button
+            leftSection={<IconPlayerPause />}
             onClick={() => {
               pauseOrEndTimer();
               setState(State.PAUSED);
@@ -105,7 +118,9 @@ export default function Goal({ goal, onNext }: Props) {
           <Text>
             <Duration duration={accumulatedDuration} />
           </Text>
-          <Button onClick={startTimer}>Resume</Button>
+          <Button leftSection={<IconPlayerPlay />} onClick={startTimer}>
+            Resume
+          </Button>
           {doneButton}
         </>
       );
@@ -118,6 +133,7 @@ export default function Goal({ goal, onNext }: Props) {
             <Duration duration={accumulatedDuration} />
           </Text>
           <Button
+            leftSection={<IconReload />}
             onClick={() => {
               setAccumulatedDuration(0);
               setState(State.NOT_STARTED);
@@ -125,7 +141,9 @@ export default function Goal({ goal, onNext }: Props) {
           >
             Try Again
           </Button>
-          <Button onClick={onNext}>New Goal</Button>
+          <Button leftSection={<IconArrowForward />} onClick={onNext}>
+            New Goal
+          </Button>
         </>
       );
       break;

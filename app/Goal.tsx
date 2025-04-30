@@ -6,7 +6,6 @@ import {
   IconCircleCheck,
   IconPlayerPause,
   IconPlayerPlay,
-  IconRefresh,
   IconReload,
 } from '@tabler/icons-react';
 import { Button, Card, Stack, Text } from '@mantine/core';
@@ -68,14 +67,18 @@ export default function Goal({ goal, onNext }: Props) {
     </Button>
   );
 
+  const newGoalButton = (
+    <Button leftSection={<IconArrowForward />} onClick={onNext}>
+      New Goal
+    </Button>
+  );
+
   let content;
   switch (state) {
     case State.NOT_STARTED:
       content = (
         <>
-          <Button leftSection={<IconRefresh />} onClick={onNext}>
-            Skip
-          </Button>
+          {newGoalButton}
           <Button
             leftSection={<IconPlayerPlay />}
             color="green"
@@ -141,9 +144,7 @@ export default function Goal({ goal, onNext }: Props) {
           >
             Try Again
           </Button>
-          <Button leftSection={<IconArrowForward />} onClick={onNext}>
-            New Goal
-          </Button>
+          {newGoalButton}
         </>
       );
       break;

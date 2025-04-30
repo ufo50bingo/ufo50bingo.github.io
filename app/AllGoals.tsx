@@ -119,7 +119,7 @@ export default function AllGoals({ attempts, goalStats, selectedGoals, onTryGoal
               reversed={reverseSortDirection}
               onSort={() => setSorting('goal')}
             >
-              Goal
+              <ThText>Goal</ThText>
             </SortableTh>
             <Table.Th>Game</Table.Th>
             <SortableTh
@@ -127,30 +127,32 @@ export default function AllGoals({ attempts, goalStats, selectedGoals, onTryGoal
               reversed={reverseSortDirection}
               onSort={() => setSorting('difficulty')}
             >
-              Difficulty
+              <ThText>Difficulty</ThText>
             </SortableTh>
             <SortableTh
               sorted={sortBy === 'average'}
               reversed={reverseSortDirection}
               onSort={() => setSorting('average')}
             >
-              Average
+              <ThText>Average</ThText>
             </SortableTh>
             <SortableTh
               sorted={sortBy === 'best'}
               reversed={reverseSortDirection}
               onSort={() => setSorting('best')}
             >
-              Best
+              <ThText>Best</ThText>
             </SortableTh>
             <SortableTh
               sorted={sortBy === 'count'}
               reversed={reverseSortDirection}
               onSort={() => setSorting('count')}
             >
-              Tries
+              <ThText>Tries</ThText>
             </SortableTh>
-            <Table.Th>Try now</Table.Th>
+            <Table.Th>
+              <ThText>Try now</ThText>
+            </Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
@@ -203,13 +205,21 @@ type SortableThProps = {
   onSort: () => void;
 };
 
+function ThText({ children }: { children: React.ReactNode }) {
+  return (
+    <Text size="14px">
+      <strong>{children}</strong>
+    </Text>
+  );
+}
+
 function SortableTh({ children, reversed, sorted, onSort }: SortableThProps) {
   const Icon = sorted ? (reversed ? IconChevronDown : IconChevronUp) : IconSelector;
   return (
     <Table.Th>
       <UnstyledButton onClick={onSort}>
         <Group gap={4} wrap="nowrap">
-          <Text>{children}</Text>
+          {children}
           <Center>
             <Icon size={16} stroke={1.5} />
           </Center>

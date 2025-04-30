@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { AttemptRow } from './db';
 
-type GoalStats = {
+export type GoalStats = {
   count: number;
   averageDuration: number;
   bestDuration: number;

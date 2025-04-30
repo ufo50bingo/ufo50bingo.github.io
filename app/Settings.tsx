@@ -6,6 +6,7 @@ import {
   Center,
   Container,
   MantineColorScheme,
+  NativeSelect,
   SegmentedControl,
   Stack,
   Table,
@@ -15,12 +16,53 @@ import {
 import ExportCSV from './ExportCSV';
 import ImportCSV from './ImportCSV';
 
-export default function Practice() {
+export enum NextGoalChoice {
+  RANDOM = 'RANDOM',
+  PREFER_FEWER_ATTEMPTS = 'PREFER_FEWER_ATTEMPTS',
+}
+
+type Props = {
+  nextGoalChoice: NextGoalChoice;
+  setNextGoalChoice: (nextGoalChoice: NextGoalChoice) => void;
+};
+
+export default function Settings({ nextGoalChoice, setNextGoalChoice }: Props) {
   const { colorScheme, setColorScheme } = useMantineColorScheme();
   return (
     <Container my="md">
       <Table variant="vertical" withTableBorder>
         <Table.Tbody>
+          <Table.Tr>
+            <Table.Th>Next goal choice</Table.Th>
+            <Table.Td>
+              <NativeSelect
+                value={nextGoalChoice}
+                onChange={(event) => setNextGoalChoice(event.currentTarget.value as NextGoalChoice)}
+                data={[
+                  { label: 'Fully random', value: NextGoalChoice.RANDOM },
+                  {
+                    label: 'Prefer goals with fewer attempts',
+                    value: NextGoalChoice.PREFER_FEWER_ATTEMPTS,
+                  },
+                ]}
+              />
+            </Table.Td>
+          </Table.Tr>
+
+          <Table.Tr>
+            <Table.Th>Export Attempts CSV</Table.Th>
+            <Table.Td>
+              <ExportCSV />
+            </Table.Td>
+          </Table.Tr>
+
+          <Table.Tr>
+            <Table.Th>Import Attempts CSV</Table.Th>
+            <Table.Td>
+              <ImportCSV />
+            </Table.Td>
+          </Table.Tr>
+
           <Table.Tr>
             <Table.Th>Theme</Table.Th>
             <Table.Td>
@@ -48,20 +90,6 @@ export default function Practice() {
                   },
                 ]}
               />
-            </Table.Td>
-          </Table.Tr>
-
-          <Table.Tr>
-            <Table.Th>Export Attempts CSV</Table.Th>
-            <Table.Td>
-              <ExportCSV />
-            </Table.Td>
-          </Table.Tr>
-
-          <Table.Tr>
-            <Table.Th>Import Attempts CSV</Table.Th>
-            <Table.Td>
-              <ImportCSV />
             </Table.Td>
           </Table.Tr>
         </Table.Tbody>

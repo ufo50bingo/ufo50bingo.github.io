@@ -29,7 +29,14 @@ export default function HomePage() {
         return items[Math.floor(Math.random() * items.length)];
     }
   }, [nextGoalChoice, selectedGoals, goalStats]);
-  const [goal, setGoal] = useState(getRandomGoal());
+  const [goal, setGoalRaw] = useState(getRandomGoal());
+  const setGoal = useCallback(
+    (goal: string) => {
+      setGoalRaw(goal);
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    },
+    [setGoalRaw]
+  );
   return (
     <Tabs value={activeTab} onChange={setActiveTab}>
       <Tabs.List>

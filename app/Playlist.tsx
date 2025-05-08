@@ -20,7 +20,6 @@ export default function Playlist({ queue, setQueue }: Props) {
           const goal = queue[source.index];
           reorderedQueue.splice(source.index, 1);
           reorderedQueue.splice(destination?.index ?? 0, 0, goal);
-          console.log(reorderedQueue);
           setQueue(reorderedQueue);
         }}
       >
@@ -41,7 +40,10 @@ export default function Playlist({ queue, setQueue }: Props) {
                           <Table.Td>{idx + 1}</Table.Td>
                           <Table.Td>{goal}</Table.Td>
                           <Table.Td>
-                            <ActionIcon onClick={() => {}} color="red">
+                            <ActionIcon
+                              onClick={() => setQueue(queue.toSpliced(idx, 1))}
+                              color="red"
+                            >
                               <IconX size={16} />
                             </ActionIcon>
                           </Table.Td>

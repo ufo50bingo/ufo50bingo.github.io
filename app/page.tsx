@@ -1,11 +1,12 @@
 'use client';
 
 import { useCallback, useState } from 'react';
-import { IconDeviceGamepad, IconFilter, IconSettings } from '@tabler/icons-react';
+import { IconDeviceGamepad, IconFilter, IconPlaylistAdd, IconSettings } from '@tabler/icons-react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { Tabs } from '@mantine/core';
 import AllGoals from './AllGoals';
 import { db } from './db';
+import Playlist from './Playlist';
 import Practice from './Practice';
 import Settings, { NextGoalChoice } from './Settings';
 import useGoalStats, { GoalStats } from './useGoalStats';
@@ -14,6 +15,7 @@ import useSelectedGoals from './useSelectedGoals';
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState<string | null>('practice');
   const [nextGoalChoice, setNextGoalChoice] = useState(NextGoalChoice.RANDOM);
+  const [queue, setQueue] = useState<string[]>([]);
 
   const attempts = useLiveQuery(() => db.attempts.orderBy('startTime').reverse().toArray()) ?? [];
   const goalStats = useGoalStats(attempts);
@@ -29,6 +31,7 @@ export default function HomePage() {
         return items[Math.floor(Math.random() * items.length)];
     }
   }, [nextGoalChoice, selectedGoals, goalStats]);
+
   const [goal, setGoalRaw] = useState(getRandomGoal());
   const setGoal = useCallback(
     (goal: string) => {
@@ -37,6 +40,16 @@ export default function HomePage() {
     },
     [setGoalRaw]
   );
+
+  const goToNextGoal = useCallback(() => {
+    if (queue.length > 0) {
+      setGoal(queue[0]);
+      setQueue(queue.slice(1));
+    } else {
+      setGoal(getRandomGoal());
+    }
+  }, [queue, getRandomGoal, goal, setGoal]);
+
   return (
     <Tabs value={activeTab} onChange={setActiveTab}>
       <Tabs.List>
@@ -45,6 +58,9 @@ export default function HomePage() {
         </Tabs.Tab>
         <Tabs.Tab value="allGoals" leftSection={<IconFilter size={12} />}>
           All Goals
+        </Tabs.Tab>
+        <Tabs.Tab value="playlist" leftSection={<IconPlaylistAdd size={12} />}>
+          Playlist
         </Tabs.Tab>
         <Tabs.Tab value="settings" leftSection={<IconSettings size={12} />}>
           Settings
@@ -55,9 +71,11 @@ export default function HomePage() {
         <Practice
           attempts={attempts}
           goalStats={goalStats}
-          getRandomGoal={getRandomGoal}
+          goToNextGoal={goToNextGoal}
           goal={goal}
-          setGoal={(goal) => setGoal(goal)}
+          setGoal={setGoal}
+          queue={queue}
+          setQueue={setQueue}
         />
       </Tabs.Panel>
       <Tabs.Panel value="allGoals">
@@ -65,11 +83,15 @@ export default function HomePage() {
           attempts={attempts}
           goalStats={goalStats}
           selectedGoals={selectedGoals}
+          setQueue={setQueue}
           onTryGoal={(goal) => {
             setGoal(goal);
             setActiveTab('practice');
           }}
         />
+      </Tabs.Panel>
+      <Tabs.Panel value="playlist">
+        <Playlist queue={queue} setQueue={setQueue} />
       </Tabs.Panel>
       <Tabs.Panel value="settings">
         <Settings nextGoalChoice={nextGoalChoice} setNextGoalChoice={setNextGoalChoice} />
@@ -97,6 +119,5 @@ function getGoalPreferFewerAttempts(
   const randomWeight = Math.random() * cumulativeWeight;
 
   const goalIndex = allCumulativeWeights.findIndex((cutoff) => cutoff >= randomWeight);
-  console.log(goalIndex, allCumulativeWeights, randomWeight);
   return goals[goalIndex];
 }

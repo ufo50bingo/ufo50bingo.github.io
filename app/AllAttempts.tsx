@@ -1,7 +1,7 @@
 'use client';
 
-import { useMemo, useState } from 'react';
-import { IconPlayerPlay, IconX } from '@tabler/icons-react';
+import { Dispatch, SetStateAction, useMemo, useState } from 'react';
+import { IconPlayerPlay, IconPlaylistAdd, IconX } from '@tabler/icons-react';
 import { ActionIcon, Anchor, Button, Group, Modal, Table, Tooltip } from '@mantine/core';
 import { AttemptRow, db } from './db';
 import Duration from './Duration';
@@ -11,9 +11,11 @@ type Props = {
   attempts: AttemptRow[];
   goalStats: Map<string, GoalStats>;
   onRetryGoal: (goal: string) => any;
+  queue: string[];
+  setQueue: Dispatch<SetStateAction<string[]>>;
 };
 
-export default function AllAttempts({ attempts, goalStats, onRetryGoal }: Props) {
+export default function AllAttempts({ attempts, goalStats, onRetryGoal, queue, setQueue }: Props) {
   const [deletingAttempt, setDeletingAttempt] = useState<AttemptRow | null>(null);
   const [displayedCount, setDisplayedCount] = useState<number>(20);
 
@@ -68,6 +70,14 @@ export default function AllAttempts({ attempts, goalStats, onRetryGoal }: Props)
                     <Tooltip label="Attempt this goal again">
                       <ActionIcon>
                         <IconPlayerPlay size={16} onClick={() => onRetryGoal(attempt.goal)} />
+                      </ActionIcon>
+                    </Tooltip>
+                    <Tooltip label="Add to playlist">
+                      <ActionIcon
+                        onClick={() => setQueue((prevQueue) => [...prevQueue, attempt.goal])}
+                        color="green"
+                      >
+                        <IconPlaylistAdd size={16} />
                       </ActionIcon>
                     </Tooltip>
                     <Tooltip label="Delete this attempt">

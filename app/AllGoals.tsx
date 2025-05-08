@@ -1,7 +1,13 @@
 'use client';
 
-import { useMemo, useState } from 'react';
-import { IconChevronDown, IconChevronUp, IconPlayerPlay, IconSelector } from '@tabler/icons-react';
+import { Dispatch, SetStateAction, useMemo, useState } from 'react';
+import {
+  IconChevronDown,
+  IconChevronUp,
+  IconPlayerPlay,
+  IconPlaylistAdd,
+  IconSelector,
+} from '@tabler/icons-react';
 import {
   ActionIcon,
   Center,
@@ -10,6 +16,7 @@ import {
   Group,
   Table,
   Text,
+  Tooltip,
   UnstyledButton,
 } from '@mantine/core';
 import { AttemptRow, db } from './db';
@@ -21,10 +28,17 @@ type Props = {
   attempts: AttemptRow[];
   goalStats: Map<string, GoalStats>;
   selectedGoals: Set<string>;
+  setQueue: Dispatch<SetStateAction<string[]>>;
   onTryGoal: (goal: string) => void;
 };
 
-export default function AllGoals({ attempts, goalStats, selectedGoals, onTryGoal }: Props) {
+export default function AllGoals({
+  attempts,
+  goalStats,
+  selectedGoals,
+  setQueue,
+  onTryGoal,
+}: Props) {
   const allChecked = SORTED_FLAT_GOALS.every((goal) => selectedGoals.has(goal.name));
   const allUnchecked = SORTED_FLAT_GOALS.every((goal) => !selectedGoals.has(goal.name));
 
@@ -150,9 +164,7 @@ export default function AllGoals({ attempts, goalStats, selectedGoals, onTryGoal
             >
               <ThText>Tries</ThText>
             </SortableTh>
-            <Table.Th>
-              <ThText>Try now</ThText>
-            </Table.Th>
+            <Table.Th />
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
@@ -185,9 +197,21 @@ export default function AllGoals({ attempts, goalStats, selectedGoals, onTryGoal
                 </Table.Td>
                 <Table.Td>{stats?.count ?? 0}</Table.Td>
                 <Table.Td>
-                  <ActionIcon onClick={() => onTryGoal(goal.name)}>
-                    <IconPlayerPlay size={16} />
-                  </ActionIcon>
+                  <Group gap={4} wrap="nowrap">
+                    <Tooltip label="Attempt this goal">
+                      <ActionIcon onClick={() => onTryGoal(goal.name)}>
+                        <IconPlayerPlay size={16} />
+                      </ActionIcon>
+                    </Tooltip>
+                    <Tooltip label="Add to playlist">
+                      <ActionIcon
+                        onClick={() => setQueue((prevQueue) => [...prevQueue, goal.name])}
+                        color="green"
+                      >
+                        <IconPlaylistAdd size={16} />
+                      </ActionIcon>
+                    </Tooltip>
+                  </Group>
                 </Table.Td>
               </Table.Tr>
             );

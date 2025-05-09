@@ -15,9 +15,9 @@ import useSelectedGoals from './useSelectedGoals';
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState<string | null>('practice');
   const [nextGoalChoice, setNextGoalChoice] = useState(NextGoalChoice.RANDOM);
-  const [queue, setQueue] = useState<string[]>([]);
 
   const attempts = useLiveQuery(() => db.attempts.orderBy('startTime').reverse().toArray()) ?? [];
+  const playlist = useLiveQuery(() => db.playlist.orderBy('priority').toArray()) ?? [];
   const goalStats = useGoalStats(attempts);
   const selectedGoals = useSelectedGoals();
 
@@ -41,14 +41,14 @@ export default function HomePage() {
     [setGoalRaw]
   );
 
-  const goToNextGoal = useCallback(() => {
-    if (queue.length > 0) {
-      setGoal(queue[0]);
-      setQueue(queue.slice(1));
+  const goToNextGoal = useCallback(async () => {
+    if (playlist.length > 0) {
+      setGoal(playlist[0].goal);
+      db.playlist.delete(playlist[0].id);
     } else {
       setGoal(getRandomGoal());
     }
-  }, [queue, getRandomGoal, goal, setGoal]);
+  }, [playlist, getRandomGoal, goal, setGoal]);
 
   return (
     <Tabs value={activeTab} onChange={setActiveTab}>
@@ -74,8 +74,6 @@ export default function HomePage() {
           goToNextGoal={goToNextGoal}
           goal={goal}
           setGoal={setGoal}
-          queue={queue}
-          setQueue={setQueue}
         />
       </Tabs.Panel>
       <Tabs.Panel value="allGoals">
@@ -83,7 +81,6 @@ export default function HomePage() {
           attempts={attempts}
           goalStats={goalStats}
           selectedGoals={selectedGoals}
-          setQueue={setQueue}
           onTryGoal={(goal) => {
             setGoal(goal);
             setActiveTab('practice');
@@ -91,7 +88,7 @@ export default function HomePage() {
         />
       </Tabs.Panel>
       <Tabs.Panel value="playlist">
-        <Playlist queue={queue} setQueue={setQueue} />
+        <Playlist playlist={playlist} />
       </Tabs.Panel>
       <Tabs.Panel value="settings">
         <Settings nextGoalChoice={nextGoalChoice} setNextGoalChoice={setNextGoalChoice} />

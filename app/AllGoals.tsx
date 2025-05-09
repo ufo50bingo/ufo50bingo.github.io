@@ -1,13 +1,7 @@
 'use client';
 
 import { Dispatch, SetStateAction, useMemo, useState } from 'react';
-import {
-  IconChevronDown,
-  IconChevronUp,
-  IconPlayerPlay,
-  IconPlaylistAdd,
-  IconSelector,
-} from '@tabler/icons-react';
+import { IconChevronDown, IconChevronUp, IconPlayerPlay, IconSelector } from '@tabler/icons-react';
 import {
   ActionIcon,
   Center,
@@ -22,23 +16,17 @@ import {
 import { AttemptRow, db } from './db';
 import Duration from './Duration';
 import { compareByDifficulty, SORTED_FLAT_GOALS } from './goals';
+import PlaylistAddButton from './PlaylistAddButton';
 import { GoalStats } from './useGoalStats';
 
 type Props = {
   attempts: AttemptRow[];
   goalStats: Map<string, GoalStats>;
   selectedGoals: Set<string>;
-  setQueue: Dispatch<SetStateAction<string[]>>;
   onTryGoal: (goal: string) => void;
 };
 
-export default function AllGoals({
-  attempts,
-  goalStats,
-  selectedGoals,
-  setQueue,
-  onTryGoal,
-}: Props) {
+export default function AllGoals({ attempts, goalStats, selectedGoals, onTryGoal }: Props) {
   const allChecked = SORTED_FLAT_GOALS.every((goal) => selectedGoals.has(goal.name));
   const allUnchecked = SORTED_FLAT_GOALS.every((goal) => !selectedGoals.has(goal.name));
 
@@ -203,14 +191,7 @@ export default function AllGoals({
                         <IconPlayerPlay size={16} />
                       </ActionIcon>
                     </Tooltip>
-                    <Tooltip label="Add to playlist">
-                      <ActionIcon
-                        onClick={() => setQueue((prevQueue) => [...prevQueue, goal.name])}
-                        color="green"
-                      >
-                        <IconPlaylistAdd size={16} />
-                      </ActionIcon>
-                    </Tooltip>
+                    <PlaylistAddButton goal={goal.name} />
                   </Group>
                 </Table.Td>
               </Table.Tr>

@@ -14,7 +14,20 @@ import useSelectedGoals from './useSelectedGoals';
 
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState<string | null>('practice');
-  const [nextGoalChoice, setNextGoalChoice] = useState(NextGoalChoice.RANDOM);
+  const [nextGoalChoice, setNextGoalChoiceRaw] = useState(
+    global.window != undefined &&
+      localStorage?.getItem('nextGoalChoice') === NextGoalChoice.PREFER_FEWER_ATTEMPTS
+      ? NextGoalChoice.PREFER_FEWER_ATTEMPTS
+      : NextGoalChoice.RANDOM
+  );
+
+  const setNextGoalChoice = useCallback(
+    (newNextGoalChoice: NextGoalChoice) => {
+      setNextGoalChoiceRaw(newNextGoalChoice);
+      window?.localStorage?.setItem('nextGoalChoice', newNextGoalChoice);
+    },
+    [setNextGoalChoiceRaw]
+  );
 
   const attempts = useLiveQuery(() => db.attempts.orderBy('startTime').reverse().toArray()) ?? [];
   const playlist = useLiveQuery(() => db.playlist.orderBy('priority').toArray()) ?? [];

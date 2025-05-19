@@ -8,7 +8,7 @@ export const RAW_GOALS = [
     },
     { name: 'BUG HUNTER: Get 3 kills with one module use', types: ['bughunter', 'easy'] },
     {
-      name: 'MAGIC GARDEN: Use OVER-GROW; Save 30+ oppies in a run',
+      name: 'MAGIC GARDEN: Use OVER-GROW; save 30+ oppies in a run',
       types: ['magicgarden', 'easy'],
     },
     {
@@ -132,7 +132,7 @@ export const RAW_GOALS = [
       types: ['ninpek', 'easy'],
     },
     { name: 'CAMPANELLA: Collect 5 coffees', types: ['campanella', 'easy'] },
-    { name: 'CAMPANELLA: Use BEAN-DRIP; Score 6,000+ points', types: ['campanella', 'easy'] },
+    { name: 'CAMPANELLA: Use BEAN-DRIP; score 6,000+ points', types: ['campanella', 'easy'] },
     { name: 'GOLFARIA: Hit 3 eagles', types: ['golfaria', 'easy'] },
     { name: 'GOLFARIA: Destroy 3 parbots', types: ['golfaria', 'easy'] },
     {
@@ -203,7 +203,7 @@ export const RAW_GOALS = [
     },
     { name: 'RAIL HEIST: Beat 5 levels', types: ['railheist', 'easy'] },
     {
-      name: 'RAIL HEIST: LAZY-COPS allowed; Beat Root Around while destroying every barrel',
+      name: 'RAIL HEIST: LAZY-COPS allowed; beat Root Around while destroying every barrel',
       types: ['railheist', 'easy'],
     },
     { name: 'OVERBOLD: Purchase 3 price hiked items in one run', types: ['overbold', 'easy'] },
@@ -213,7 +213,7 @@ export const RAW_GOALS = [
       types: ['hypercontender', 'easy'],
     },
     {
-      name: 'HYPER CONTENDER: Use PAST-RULE; Beat Draft Mode twice',
+      name: 'HYPER CONTENDER: Use PAST-RULE; beat Draft Mode twice',
       types: ['hypercontender', 'easy'],
     },
     { name: 'GRIMSTONE: Defeat 15 enemies', types: ['grimstone', 'easy'] },
@@ -274,7 +274,7 @@ export const RAW_GOALS = [
       types: ['hypercontender', 'medium'],
     },
     {
-      name: 'HYPER CONTENDER: Use PAST-RULE; Beat Tournament Mode (Default settings)',
+      name: 'HYPER CONTENDER: Use PAST-RULE; beat Tournament Mode (Default settings)',
       types: ['hypercontender', 'medium'],
     },
     { name: 'LORDS OF DISKONIA: Have 50+ gold', types: ['lordsofdiskonia', 'medium'] },
@@ -284,7 +284,7 @@ export const RAW_GOALS = [
     },
     { name: 'CYBER OWLS: Complete 2 non-rescue missions', types: ['cyberowls', 'medium'] },
     {
-      name: 'CYBER OWLS: Have 2000 total points at HQ without playing Congo',
+      name: 'CYBER OWLS: GETM-EOUT allowed; rescue each owl in the mini-game',
       types: ['cyberowls', 'medium'],
     },
   ],
@@ -375,7 +375,7 @@ export const RAW_GOALS = [
       types: ['pilotquest', 'medium'],
     },
     { name: 'PILOT QUEST: Defeat Unktomi (Spider boss)', types: ['pilotquest', 'medium'] },
-    { name: 'QUIBBLE RACE: WILD-BETS allowed; Have $25,000', types: ['quibblerace', 'medium'] },
+    { name: 'QUIBBLE RACE: WILD-BETS allowed; have $25,000', types: ['quibblerace', 'medium'] },
     { name: 'QUIBBLE RACE: Win 5 bets', types: ['quibblerace', 'medium'] },
   ],
   [
@@ -385,11 +385,11 @@ export const RAW_GOALS = [
       types: ['devilition', 'medium'],
     },
     {
-      name: 'BLOCK KOALA: WORM-1234 allowed; Beat 3 eastern levels (41-49)',
+      name: 'BLOCK KOALA: WORM-1234 allowed; beat 3 eastern levels (41-49)',
       types: ['blockkoala', 'medium'],
     },
     {
-      name: 'BLOCK KOALA: WORM-1234 allowed; Beat 5 hedge maze levels (28-40)',
+      name: 'BLOCK KOALA: WORM-1234 allowed; beat 5 hedge maze levels (28-40)',
       types: ['blockkoala', 'medium'],
     },
     {
@@ -407,12 +407,12 @@ export const RAW_GOALS = [
       types: ['railheist', 'medium'],
     },
     {
-      name: 'RAIL HEIST: GOOD-SPUR allowed; Beat Fowl Business with all chickens and lawmen killed',
+      name: 'RAIL HEIST: GOOD-SPUR allowed; beat Fowl Business with all chickens and lawmen killed',
       types: ['railheist', 'medium'],
     },
     { name: 'CAMPANELLA 2: Obtain the Friendship Bracelet', types: ['campanella2', 'medium'] },
     { name: 'CAMPANELLA 2: Obtain the Talisman (Cross) item', types: ['campanella2', 'medium'] },
-    { name: 'GRIMSTONE: Learn 3 Skills at once', types: ['grimstone', 'medium'] },
+    { name: 'GRIMSTONE: Have 3 Skills learned at once', types: ['grimstone', 'medium'] },
     { name: 'GRIMSTONE: Collect the money from the burned house', types: ['grimstone', 'medium'] },
   ],
   [
@@ -461,7 +461,7 @@ export const RAW_GOALS = [
     { name: 'WALDORF’S JOURNEY: Have four puffins at once', types: ['waldorfsjourney', 'hard'] },
     { name: 'CARAMEL CARAMEL: Score 50,000+ points', types: ['caramelcaramel', 'hard'] },
     {
-      name: 'CARAMEL CARAMEL: TEST-LENS allowed; Beat Ghost Planet without using the camera before the boss',
+      name: 'CARAMEL CARAMEL: TEST-LENS allowed; beat Ghost Planet without using the camera before the boss',
       types: ['caramelcaramel', 'hard'],
     },
     {
@@ -479,8 +479,8 @@ export const RAW_GOALS = [
   [
     { name: 'BUG HUNTER: Complete a job with your energy maxed out', types: ['bughunter', 'hard'] },
     { name: 'BUG HUNTER: Use WORK-LESS; complete Job 7', types: ['bughunter', 'hard'] },
-    { name: 'MORTOL: OPEN-TOMB allowed; Clear all world 2 levels', types: ['mortol', 'hard'] },
-    { name: 'MORTOL: OPEN-TOMB allowed; Clear all world 3 levels', types: ['mortol', 'hard'] },
+    { name: 'MORTOL: OPEN-TOMB allowed; clear all world 2 levels', types: ['mortol', 'hard'] },
+    { name: 'MORTOL: OPEN-TOMB allowed; clear all world 3 levels', types: ['mortol', 'hard'] },
     { name: 'MOONCAT: Visit 14 different rooms', types: ['mooncat', 'hard'] },
     { name: 'MOONCAT: Gold disk', types: ['barbuta', 'hard'] },
     { name: 'CAMOUFLAGE: Escape with 3/3 collectibles on 5 levels', types: ['camouflage', 'hard'] },
@@ -568,7 +568,7 @@ export const RAW_GOALS = [
       types: ['grimstone', 'hard'],
     },
     {
-      name: 'CYBER OWLS: GETM-EOUT allowed; Rescue each owl in the mini-game',
+      name: 'CYBER OWLS: Have 2000 total points at HQ without playing Congo',
       types: ['cyberowls', 'hard'],
     },
     { name: 'CYBER OWLS: Clear Moscow with 1200+ score', types: ['cyberowls', 'hard'] },
@@ -586,10 +586,10 @@ export const RAW_GOALS = [
       types: ['kickclub', 'hard'],
     },
     {
-      name: 'BLOCK KOALA: WORM-1234 allowed; Beat 5 southeastern levels (15-27)',
+      name: 'BLOCK KOALA: WORM-1234 allowed; beat 5 southeastern levels (15-27)',
       types: ['blockkoala', 'hard'],
     },
-    { name: 'BLOCK KOALA: WORM-1234 allowed; Beat level 14', types: ['blockkoala', 'hard'] },
+    { name: 'BLOCK KOALA: WORM-1234 allowed; beat level 14', types: ['blockkoala', 'hard'] },
     { name: 'WARPTANK: Collect 5 coffees', types: ['warptank', 'hard'] },
     {
       name: 'WARPTANK: SLIM-TANK allowed; beat Riot and Soft Sectors',
@@ -614,7 +614,7 @@ export const RAW_GOALS = [
     },
     { name: 'PARTY HOUSE: Have 6 star guests in a party at once', types: ['partyhouse', 'hard'] },
     {
-      name: 'RAIL HEIST: LAZY-COPS allowed; Beat Vengeance! and The Final Score',
+      name: 'RAIL HEIST: LAZY-COPS allowed; beat Vengeance! and The Final Score',
       types: ['railheist', 'hard'],
     },
     { name: 'RAIL HEIST: Collect all 3 stars on 3 different levels', types: ['railheist', 'hard'] },
@@ -623,7 +623,7 @@ export const RAW_GOALS = [
       types: ['rockonisland', 'hard'],
     },
     {
-      name: 'ROCK ON! ISLAND: CLUB-PASS allowed; Beat Wasteland without chickens',
+      name: 'ROCK ON! ISLAND: CLUB-PASS allowed; beat Wasteland without chickens',
       types: ['rockonisland', 'hard'],
     },
     { name: 'PINGOLF: Hole-in-one on 3 different courses', types: ['pingolf', 'hard'] },
@@ -639,7 +639,7 @@ export const RAW_GOALS = [
     },
     { name: 'COMBATANTS: Slay a spider', types: ['combatants', 'hard'] },
     {
-      name: 'COMBATANTS: ANTS-ANTS allowed; Beat ‘Commando’ and ‘Commando2’',
+      name: 'COMBATANTS: ANTS-ANTS allowed; beat ‘Commando’ and ‘Commando2’',
       types: ['combatants', 'hard'],
     },
   ],
@@ -660,7 +660,7 @@ export const RAW_GOALS = [
     { name: 'AVIANOS: Gold disk', types: ['avianos', 'veryhard'] },
     { name: 'MOONCAT: Find 2 of 3 eggs', types: ['mooncat', 'veryhard'] },
     {
-      name: 'BLOCK KOALA: WORM-1234 allowed; Beat any 9 story levels',
+      name: 'BLOCK KOALA: WORM-1234 allowed; beat any 9 story levels',
       types: ['blockkoala', 'veryhard'],
     },
     { name: 'CAMOUFLAGE: Reach 70% completion or more', types: ['camouflage', 'veryhard'] },
@@ -705,7 +705,7 @@ export const RAW_GOALS = [
     { name: 'CARAMEL CARAMEL: Gold disk', types: ['caramelcaramel', 'veryhard'] },
     { name: 'RAIL HEIST: Collect 9 Devil Stars', types: ['railheist', 'veryhard'] },
     {
-      name: 'ROCK ON! ISLAND: CLUB-PASS allowed; Perfect two levels that aren’t Initial Encounter',
+      name: 'ROCK ON! ISLAND: CLUB-PASS allowed; perfect two levels that aren’t Initial Encounter',
       types: ['rockonisland', 'veryhard'],
     },
     {
@@ -734,12 +734,12 @@ export const RAW_GOALS = [
     },
     { name: 'NIGHT MANOR: Cherry disk', types: ['nightmanor', 'veryhard'] },
     { name: 'MINI & MAX: Collect 350 shinies', types: ['miniandmax', 'veryhard'] },
-    { name: 'COMBATANTS: ANTS-ANTS allowed; Beat ‘This Is It’', types: ['combatants', 'veryhard'] },
+    { name: 'COMBATANTS: ANTS-ANTS allowed; beat ‘This Is It’', types: ['combatants', 'veryhard'] },
     {
       name: 'CAMPANELLA 3: Reach Eggsaber without firing sideways',
       types: ['campanella3', 'veryhard'],
     },
-    { name: 'CYBER OWLS: HAWK-BASE allowed; Beat Antarctica', types: ['cyberowls', 'veryhard'] },
+    { name: 'CYBER OWLS: HAWK-BASE allowed; beat Antarctica', types: ['cyberowls', 'veryhard'] },
   ],
   [
     { name: 'Collect 4 gifts from games on this card', types: ['general', 'general'] },

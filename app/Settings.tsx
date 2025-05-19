@@ -15,6 +15,7 @@ import {
 } from '@mantine/core';
 import ExportCSV from './ExportCSV';
 import ImportCSV from './ImportCSV';
+import MigrateHistory from './MigrateHistory';
 
 export enum NextGoalChoice {
   RANDOM = 'RANDOM',
@@ -60,6 +61,13 @@ export default function Settings({ nextGoalChoice, setNextGoalChoice }: Props) {
             <Table.Th>Import Attempts CSV</Table.Th>
             <Table.Td>
               <ImportCSV />
+            </Table.Td>
+          </Table.Tr>
+
+          <Table.Tr>
+            <Table.Th>Migrate history for renamed goals</Table.Th>
+            <Table.Td>
+              <MigrateHistory />
             </Table.Td>
           </Table.Tr>
 

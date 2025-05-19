@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import Papa from 'papaparse';
 import { Button } from '@mantine/core';
 import { Attempt, db } from './db';

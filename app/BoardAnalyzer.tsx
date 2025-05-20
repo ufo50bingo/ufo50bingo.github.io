@@ -2,7 +2,6 @@ import { useCallback, useState } from 'react';
 import { IconInfoCircle } from '@tabler/icons-react';
 import chroma from 'chroma-js';
 import { Alert, Button, Container, Group, Stack, Text, TextInput } from '@mantine/core';
-import Duration from './Duration';
 import { GoalStats } from './useGoalStats';
 
 interface CellResponse {
@@ -67,12 +66,13 @@ export default function BoardAnalyzer({ goalStats }: Props) {
           </Button>
         </Group>
         {board != null && scale != null && (
-          <table>
+          <table style={{ borderCollapse: 'collapse' }}>
             <tbody>
               {board.map((row, idx) => (
                 <tr key={idx}>
                   {row.map((cell, idx) => {
                     const averageDuration = goalStats.get(cell)?.averageDuration;
+                    const backgroundColor = scale(averageDuration ?? 15 * 60 * 1000).css();
                     return (
                       <td
                         key={idx}
@@ -85,7 +85,7 @@ export default function BoardAnalyzer({ goalStats }: Props) {
                           verticalAlign: 'top',
                           overflow: 'hidden',
                           padding: '0 5px',
-                          backgroundColor: scale(averageDuration ?? 15 * 60 * 1000),
+                          backgroundColor,
                         }}
                       >
                         {

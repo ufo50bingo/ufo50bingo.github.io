@@ -1,10 +1,17 @@
 'use client';
 
 import { useCallback, useState } from 'react';
-import { IconDeviceGamepad, IconFilter, IconPlaylistAdd, IconSettings } from '@tabler/icons-react';
+import {
+  IconBorderAll,
+  IconDeviceGamepad,
+  IconFilter,
+  IconPlaylistAdd,
+  IconSettings,
+} from '@tabler/icons-react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { Tabs } from '@mantine/core';
 import AllGoals from './AllGoals';
+import BoardAnalyzer from './BoardAnalyzer';
 import { db } from './db';
 import Playlist from './Playlist';
 import Practice from './Practice';
@@ -78,6 +85,9 @@ export default function HomePage() {
         <Tabs.Tab value="settings" leftSection={<IconSettings size={12} />}>
           Settings
         </Tabs.Tab>
+        <Tabs.Tab value="boardAnalyzer" leftSection={<IconBorderAll size={12} />}>
+          Board Analyzer
+        </Tabs.Tab>
       </Tabs.List>
 
       <Tabs.Panel value="practice">
@@ -105,6 +115,9 @@ export default function HomePage() {
       </Tabs.Panel>
       <Tabs.Panel value="settings">
         <Settings nextGoalChoice={nextGoalChoice} setNextGoalChoice={setNextGoalChoice} />
+      </Tabs.Panel>
+      <Tabs.Panel value="boardAnalyzer">
+        <BoardAnalyzer goalStats={goalStats} />
       </Tabs.Panel>
     </Tabs>
   );

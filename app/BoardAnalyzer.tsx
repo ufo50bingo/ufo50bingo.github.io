@@ -18,10 +18,12 @@ export default function BoardAnalyzer({ goalStats }: Props) {
 
   let scale = null;
   if (board != null) {
-    const times = board.flat().map((c) => goalStats.get(c)?.averageDuration ?? 15 * 60 * 1000);
+    const times = board
+      .flat()
+      .map((c) => Math.pow(goalStats.get(c)?.averageDuration ?? 15 * 60 * 1000, -0.5));
     const max = Math.max(...times);
     const min = Math.min(...times);
-    scale = chroma.scale(['green', 'red']).domain([min, max]).mode('lrgb');
+    scale = chroma.scale(['red', 'purple', 'blue']).domain([min, max]).mode('lrgb');
   }
 
   return (
@@ -72,7 +74,9 @@ export default function BoardAnalyzer({ goalStats }: Props) {
                 <tr key={idx}>
                   {row.map((cell, idx) => {
                     const averageDuration = goalStats.get(cell)?.averageDuration;
-                    const backgroundColor = scale(averageDuration ?? 15 * 60 * 1000).css();
+                    const backgroundColor = scale(
+                      Math.pow(averageDuration ?? 15 * 60 * 1000, -0.5)
+                    ).css();
                     return (
                       <td
                         key={idx}

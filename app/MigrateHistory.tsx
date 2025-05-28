@@ -58,6 +58,8 @@ const OLD_GOAL_TO_NEW_GOAL: { [key: string]: GoalName } = {
   'Increase your max HP in 6 games': 'Increase your base HP in 6 games',
   'MAGIC GARDEN: Use OVER-GROW; Save 30+ oppies in a run':
     'MAGIC GARDEN: Use OVER-GROW; save 30+ oppies in a run',
+  'METROIDVANIA: Collect Upgrades: 3 in Porgy, 2 in Vainger, 1 in Golfaria':
+    'METROIDVANIA: Collect Abilities: 3 in Porgy, 2 in Vainger, 1 in Golfaria',
   'MORTOL: Beat a level with a total of 30 or more additional lives than you began the run with':
     'MORTOL: Have 50+ Lives (No BENS-MODE)',
   'MORTOL: OPEN-TOMB allowed; Clear all world 2 levels':

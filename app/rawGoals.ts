@@ -770,8 +770,8 @@ export const RAW_GOALS = [
   ],
   [
     { name: 'Defeat 7 bosses', types: ['general', 'general'] },
-    { name: 'Defeat 10 bosses', types: ['general', 'general'] },
-    { name: 'Defeat a boss in 5 different games', types: ['general', 'general'] },
+    { name: 'Defeat 2 bosses in 4 different games', types: ['general', 'general'] },
+    { name: 'Defeat a boss in 6 different games', types: ['general', 'general'] },
     { name: 'Beat 2 levels in 8 different games', types: ['general', 'general'] },
     { name: 'Beat 4 levels in 5 different games', types: ['general', 'general'] },
     { name: 'Beat 8 levels in 3 different games', types: ['general', 'general'] },
@@ -788,7 +788,7 @@ export const RAW_GOALS = [
     { name: 'TRIATHLON: Gold Disk any 3 of the 5 “SPORT” games', types: ['general', 'general'] },
     { name: 'ARCADE ACE: Gold Disk any 3 of the 16 “ARCADE” games', types: ['general', 'general'] },
     {
-      name: 'METROIDVANIA: Collect Upgrades: 3 in Porgy, 2 in Vainger, 1 in Golfaria',
+      name: 'METROIDVANIA: Collect Abilities: 3 in Porgy, 2 in Vainger, 1 in Golfaria',
       types: ['general', 'general'],
     },
     {

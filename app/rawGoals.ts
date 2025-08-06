@@ -76,7 +76,7 @@ export const RAW_GOALS = [
   [
     { name: 'ATTACTICS: Win 5 battles without losing any flags', types: ['attactics', 'easy'] },
     {
-      name: 'ATTACTICS: Have 3 Legendary Heroes at once (Ranked or Survival Mode)',
+      name: 'ATTACTICS: Have 3 Heroes at once (Ranked or Survival Mode)',
       types: ['attactics', 'easy'],
     },
     {
@@ -143,7 +143,7 @@ export const RAW_GOALS = [
     { name: 'PORGY: Collect 3 fuel tanks', types: ['porgy', 'easy'] },
     { name: 'PORGY: Collect the Buster Torpedos', types: ['porgy', 'easy'] },
     {
-      name: 'ROCK ON! ISLAND: Have 20 chickens at once in a main level',
+      name: 'ROCK ON! ISLAND: Have all 6 fully upgraded cavemen types at once',
       types: ['rockonisland', 'easy'],
     },
     {
@@ -207,7 +207,7 @@ export const RAW_GOALS = [
       types: ['railheist', 'easy'],
     },
     { name: 'OVERBOLD: Purchase 3 price hiked items in one run', types: ['overbold', 'easy'] },
-    { name: 'OVERBOLD: Max out four upgrades', types: ['overbold', 'easy'] },
+    { name: 'OVERBOLD: Max out four upgrades at once', types: ['overbold', 'easy'] },
     {
       name: 'HYPER CONTENDER: Win 4 fights in one tournament on default ring settings',
       types: ['hypercontender', 'easy'],
@@ -481,8 +481,8 @@ export const RAW_GOALS = [
     { name: 'BUG HUNTER: Use WORK-LESS; complete Job 7', types: ['bughunter', 'hard'] },
     { name: 'MORTOL: OPEN-TOMB allowed; clear all world 2 levels', types: ['mortol', 'hard'] },
     { name: 'MORTOL: OPEN-TOMB allowed; clear all world 3 levels', types: ['mortol', 'hard'] },
-    { name: 'MOONCAT: Visit 14 different rooms', types: ['mooncat', 'hard'] },
-    { name: 'MOONCAT: Gold disk', types: ['barbuta', 'hard'] },
+    { name: 'MOONCAT: Obtain the Green or Yellow egg', types: ['mooncat', 'hard'] },
+    { name: 'MOONCAT: Gold disk', types: ['mooncat', 'hard'] },
     { name: 'CAMOUFLAGE: Escape with 3/3 collectibles on 5 levels', types: ['camouflage', 'hard'] },
     {
       name: 'CAMOUFLAGE: Escape with 2/3 collectibles or more on 7 levels',
@@ -531,7 +531,7 @@ export const RAW_GOALS = [
       types: ['oniondelivery', 'hard'],
     },
     {
-      name: 'ONION DELIVERY: Complete the 4 days in a run with 7+ deliveries each',
+      name: 'ONION DELIVERY: Complete 4 days in a run with 7+ deliveries each',
       types: ['oniondelivery', 'hard'],
     },
     { name: 'HOT FOOT: Get 3 blowouts in one tournament', types: ['hotfoot', 'hard'] },
@@ -619,7 +619,7 @@ export const RAW_GOALS = [
     },
     { name: 'RAIL HEIST: Collect all 3 stars on 3 different levels', types: ['railheist', 'hard'] },
     {
-      name: 'ROCK ON! ISLAND: CLUB-PASS allowed; survive the first 5 waves of The Four Emperors w/o getting hit',
+      name: 'ROCK ON! ISLAND: CLUB-PASS allowed; survive the first 5 waves of The Four Emperors w/o losing health',
       types: ['rockonisland', 'hard'],
     },
     {

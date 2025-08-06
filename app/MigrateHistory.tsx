@@ -7,6 +7,8 @@ import { GoalName } from './goals';
 
 // Use the GoalName type to confirm that we're always migrating to a valid goal name
 const OLD_GOAL_TO_NEW_GOAL: { [key: string]: GoalName } = {
+  'ATTACTICS: Have 3 Legendary Heroes at once (Ranked or Survival Mode)':
+    'ATTACTICS: Have 3 Heroes at once (Ranked or Survival Mode)',
   'ATTACTICS: Reach Lieutenant in ranked mode': 'ATTACTICS: Reach Lieutenant (50+) in Ranked Mode',
   'AVIANOS: Win the campaign Hatchling game without using any Miracles':
     'AVIANOS: Win the campaign Hatchling game without using any miracles',
@@ -66,7 +68,10 @@ const OLD_GOAL_TO_NEW_GOAL: { [key: string]: GoalName } = {
     'MORTOL: OPEN-TOMB allowed; clear all world 2 levels',
   'MORTOL: OPEN-TOMB allowed; Clear all world 3 levels':
     'MORTOL: OPEN-TOMB allowed; clear all world 3 levels',
+  'ONION DELIVERY: Complete the 4 days in a run with 7+ deliveries each':
+    'ONION DELIVERY: Complete 4 days in a run with 7+ deliveries each',
   'OVERBOLD: Cherry disk': 'OVERBOLD: Cherry Disk',
+  'OVERBOLD: Max out four upgrades': 'OVERBOLD: Max out four upgrades at once',
   'PAINT CHASE: Beat 6 levels': 'PAINT CHASE: Beat 6 courses',
   'PAINT CHASE: Beat 7 levels without using power ups (boost pads allowed)':
     'PAINT CHASE: Beat 7 levels without using power-ups (boosting allowed)',
@@ -98,8 +103,8 @@ const OLD_GOAL_TO_NEW_GOAL: { [key: string]: GoalName } = {
     'ROCK ON! ISLAND: CLUB-PASS allowed; beat Wasteland without chickens',
   'ROCK ON! ISLAND: CLUB-PASS allowed; Perfect two levels that aren’t Initial Encounter':
     'ROCK ON! ISLAND: CLUB-PASS allowed; perfect two levels that aren’t Initial Encounter',
-  'ROCK ON! ISLAND: Have 20 chickens in a main level':
-    'ROCK ON! ISLAND: Have 20 chickens at once in a main level',
+  'ROCK ON! ISLAND: CLUB-PASS allowed; survive the first 5 waves of The Four Emperors w/o getting hit':
+    'ROCK ON! ISLAND: CLUB-PASS allowed; survive the first 5 waves of The Four Emperors w/o losing health',
   'VAINGER: Collect 1 keycode': 'VAINGER: Collect a Keycode from a major boss',
   'VAINGER: Get the Force Mod from Verde Sector': 'VAINGER: Obtain the Force Mod from Verde Sector',
   'WARPTANK: Beat any 9 levels and talk to 3 NPCs':

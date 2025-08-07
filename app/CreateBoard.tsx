@@ -4,6 +4,7 @@ import {
   Alert,
   Button,
   Card,
+  Checkbox,
   Container,
   JsonInput,
   SegmentedControl,
@@ -21,6 +22,7 @@ export default function CreateBoard() {
   const [custom, setCustom] = useState('');
   const [roomName, setRoomName] = useState('');
   const [password, setPassword] = useState('');
+  const [isLockout, setIsLockout] = useState(true);
   const [isCreationInProgress, setIsCreationInProgress] = useState(false);
   const [url, setUrl] = useState('');
   const [error, setError] = useState<Error | null>(null);
@@ -67,6 +69,11 @@ export default function CreateBoard() {
             value={password}
             onChange={(event) => setPassword(event.currentTarget.value)}
           />
+          <Checkbox
+            checked={isLockout}
+            label="Lockout"
+            onChange={(event) => setIsLockout(event.currentTarget.checked)}
+          />
           <Button
             disabled={
               isCreationInProgress ||
@@ -78,7 +85,7 @@ export default function CreateBoard() {
               setIsCreationInProgress(true);
               const pasta = metadata == null ? custom : JSON.stringify(metadata.pasta);
               try {
-                const url = await tryCreate(roomName, password, pasta);
+                const url = await tryCreate(roomName, password, isLockout, pasta);
                 setError(null);
                 setUrl(url);
                 setIsCreationInProgress(false);
@@ -113,13 +120,19 @@ export default function CreateBoard() {
   );
 }
 
-async function tryCreate(roomName: string, password: string, pasta: string): Promise<string> {
+async function tryCreate(
+  roomName: string,
+  password: string,
+  isLockout: boolean,
+  pasta: string
+): Promise<string> {
   const response = await fetch('https://bingosync-proxy-52352836062.us-west1.run.app/create', {
     method: 'POST',
     body: new URLSearchParams({
       room_name: roomName,
       passphrase: password,
       custom_json: pasta,
+      lockout_mode: isLockout ? '2' : '1',
     }).toString(),
     headers: {
       'content-type': 'application/x-www-form-urlencoded',

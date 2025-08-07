@@ -10,14 +10,14 @@ export const METADATA = [
     pasta: STANDARD,
   },
   {
-    name: 'Blitz',
-    update_time: 1754538492,
-    pasta: BLITZ,
-  },
-  {
     name: 'Spicy',
     update_time: 1754538492,
     pasta: SPICY,
+  },
+  {
+    name: 'Blitz',
+    update_time: 1754538492,
+    pasta: BLITZ,
   },
   {
     name: 'Nozzlo',

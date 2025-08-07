@@ -1004,6 +1004,7 @@ export const SPICY = [
     },
     {
       name: 'DAY JOB II: Earn the gift in any 2 and gold disk in the third: Rail Heist, Bug Hunter, Onion Delivery',
+      types: ['general', 'general'],
     },
     {
       name: 'PILOT PARTY II: Collect the Gift in ALL 6 games: Campanella 1/2/3, Planet Zoldath, Pilot Quest, The Big Bell Race',

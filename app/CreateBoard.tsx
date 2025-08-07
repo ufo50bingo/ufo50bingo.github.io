@@ -13,6 +13,9 @@ import {
   Text,
   TextInput,
 } from '@mantine/core';
+import { Pasta } from './createPasta';
+import GameChecker from './GameChecker';
+import PastaFilter from './PastaFilter';
 import { METADATA } from './pastas/metadata';
 
 const options = [...METADATA.map((d) => d.name), 'Custom'];
@@ -20,6 +23,11 @@ const options = [...METADATA.map((d) => d.name), 'Custom'];
 export default function CreateBoard() {
   const [variant, setVariant] = useState(options[0]);
   const [custom, setCustom] = useState('');
+
+  const [customizedPasta, setCustomizedPasta] = useState<null | Pasta>(null);
+
+  const [showFilters, setShowFilters] = useState(false);
+
   const [roomName, setRoomName] = useState('');
   const [password, setPassword] = useState('');
   const [isLockout, setIsLockout] = useState(true);
@@ -50,15 +58,35 @@ export default function CreateBoard() {
         value={custom}
       />
     );
+
+  const isEligibleForCustomizedPasta = variant === 'Standard' || variant === 'Spicy';
+  const isUsingCustomizedPasta = isEligibleForCustomizedPasta && showFilters;
+
   return (
     <Container my="md">
       <Card shadow="sm" padding="sm" radius="md" withBorder>
         <Stack gap={8}>
           <Text>
-            <strong>Choose your variant</strong>
+            <strong>Choose variant</strong>
           </Text>
           <SegmentedControl data={options} onChange={setVariant} value={variant} />
           {description}
+          {metadata != null && isEligibleForCustomizedPasta && (
+            <>
+              <Checkbox
+                checked={showFilters}
+                label="Show customization options"
+                onChange={(event) => setShowFilters(event.currentTarget.checked)}
+              />
+              {showFilters && (
+                // TODO: Fix up the typing here to get rid of the any
+                <PastaFilter pasta={metadata.pasta as any} onChangePasta={setCustomizedPasta} />
+              )}
+            </>
+          )}
+          <Text>
+            <strong>Configure Room</strong>
+          </Text>
           <TextInput
             label="Room name"
             value={roomName}
@@ -79,11 +107,17 @@ export default function CreateBoard() {
               isCreationInProgress ||
               roomName === '' ||
               password === '' ||
-              (metadata == null && custom === '')
+              (metadata == null && custom === '') ||
+              (isUsingCustomizedPasta && customizedPasta == null)
             }
             onClick={async () => {
               setIsCreationInProgress(true);
-              const pasta = metadata == null ? custom : JSON.stringify(metadata.pasta);
+              const pasta =
+                isUsingCustomizedPasta && customizedPasta != null
+                  ? JSON.stringify(customizedPasta)
+                  : metadata == null
+                    ? custom
+                    : JSON.stringify(metadata.pasta);
               try {
                 const url = await tryCreate(roomName, password, isLockout, pasta);
                 setError(null);
@@ -99,6 +133,18 @@ export default function CreateBoard() {
           >
             Create Bingosync Board
           </Button>
+          {isUsingCustomizedPasta && (
+            <Button
+              disabled={customizedPasta == null}
+              onClick={() => {
+                if (customizedPasta != null) {
+                  navigator.clipboard.writeText(JSON.stringify(customizedPasta, null, 4));
+                }
+              }}
+            >
+              Copy Customized Pasta to Clipboard
+            </Button>
+          )}
           {url !== '' && (
             <Alert variant="light" color="green" title="Success!" icon={<IconCheck />}>
               Your bingo board is available at{' '}

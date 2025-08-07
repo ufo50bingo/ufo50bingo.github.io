@@ -65,11 +65,14 @@ export default function CreateBoard() {
       />
     );
 
-  const hasLessThan25Games =
-    checkState
-      .values()
-      .toArray()
-      .filter((isChecked) => isChecked).length < 25;
+  // for some reason it doesn't like checkState.values().filter(...)
+  let checkedGameCount = 0;
+  checkState.forEach((isChecked) => {
+    if (isChecked) {
+      checkedGameCount += 1;
+    }
+  });
+  const hasLessThan25Games = checkedGameCount < 25;
   const isEligibleForCustomizedPasta = variant === 'Standard' || variant === 'Spicy';
   const isUsingCustomizedPasta = isEligibleForCustomizedPasta && showFilters;
 

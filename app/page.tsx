@@ -7,11 +7,13 @@ import {
   IconFilter,
   IconPlaylistAdd,
   IconSettings,
+  IconVs,
 } from '@tabler/icons-react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { Tabs } from '@mantine/core';
 import AllGoals from './AllGoals';
 import BoardAnalyzer from './BoardAnalyzer';
+import CreateBoard from './CreateBoard';
 import { db } from './db';
 import Playlist from './Playlist';
 import Practice from './Practice';
@@ -20,7 +22,7 @@ import useGoalStats, { GoalStats } from './useGoalStats';
 import useSelectedGoals from './useSelectedGoals';
 
 export default function HomePage() {
-  const [activeTab, setActiveTab] = useState<string | null>('practice');
+  const [activeTab, setActiveTab] = useState<string | null>('createBoard');
   const [nextGoalChoice, setNextGoalChoiceRaw] = useState(
     global.window != undefined &&
       localStorage?.getItem('nextGoalChoice') === NextGoalChoice.PREFER_FEWER_ATTEMPTS
@@ -73,6 +75,9 @@ export default function HomePage() {
   return (
     <Tabs value={activeTab} onChange={setActiveTab}>
       <Tabs.List>
+        <Tabs.Tab value="createBoard" leftSection={<IconVs size={12} />}>
+          Create Board
+        </Tabs.Tab>
         <Tabs.Tab value="practice" leftSection={<IconDeviceGamepad size={12} />}>
           Practice
         </Tabs.Tab>
@@ -90,6 +95,9 @@ export default function HomePage() {
         </Tabs.Tab>
       </Tabs.List>
 
+      <Tabs.Panel value="createBoard">
+        <CreateBoard />
+      </Tabs.Panel>
       <Tabs.Panel value="practice">
         <Practice
           attempts={attempts}

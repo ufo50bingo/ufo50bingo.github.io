@@ -65,6 +65,11 @@ export default function CreateBoard() {
       />
     );
 
+  const hasLessThan25Games =
+    checkState
+      .values()
+      .filter((isChecked) => isChecked)
+      .toArray().length < 25;
   const isEligibleForCustomizedPasta = variant === 'Standard' || variant === 'Spicy';
   const isUsingCustomizedPasta = isEligibleForCustomizedPasta && showFilters;
 
@@ -94,7 +99,16 @@ export default function CreateBoard() {
             />
           )}
           {variant === 'Game Names' && showFilters && (
-            <GameChecker checkState={checkState} setCheckState={setCheckState} />
+            <>
+              <GameChecker checkState={checkState} setCheckState={setCheckState} />
+              {hasLessThan25Games && (
+                <Alert
+                  variant="light"
+                  color="red"
+                  title="Error: You must select at least 25 games"
+                />
+              )}
+            </>
           )}
           {metadata != null && isEligibleForCustomizedPasta && showFilters && (
             <PastaFilter
@@ -105,7 +119,6 @@ export default function CreateBoard() {
               onChangePasta={setCustomizedPasta}
             />
           )}
-
           {variant === 'Custom' && (
             <JsonInput
               autosize
@@ -141,7 +154,8 @@ export default function CreateBoard() {
               isCreationInProgress ||
               roomName === '' ||
               password === '' ||
-              (metadata == null && custom === '') ||
+              (variant === 'Game Names' && showFilters && hasLessThan25Games) ||
+              (variant === 'Custom' && custom === '') ||
               (isUsingCustomizedPasta && customizedPasta == null)
             }
             onClick={async () => {

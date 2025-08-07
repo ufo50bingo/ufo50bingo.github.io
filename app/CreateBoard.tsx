@@ -181,8 +181,8 @@ export default function CreateBoard() {
                 const url = await tryCreate(
                   roomName,
                   password,
-                  isLockout,
                   variant === 'Game Names',
+                  isLockout,
                   pasta
                 );
                 setError(null);
@@ -226,9 +226,12 @@ export default function CreateBoard() {
             </Alert>
           )}
           {error != null && (
-            <Alert variant="light" color="red" title="Failure!" icon={<IconExclamationMark />}>
-              Failed to create bingo board:
-              <br />
+            <Alert
+              variant="light"
+              color="red"
+              title="Failed to create bingo board"
+              icon={<IconExclamationMark />}
+            >
               {error.message}
             </Alert>
           )}
@@ -263,5 +266,9 @@ async function tryCreate(
   });
 
   const json = await response.json();
-  return json.url;
+  const url = json.url;
+  if (url === 'https://www.bingosync.com/') {
+    throw new Error('Malformed bingosync request');
+  }
+  return url;
 }

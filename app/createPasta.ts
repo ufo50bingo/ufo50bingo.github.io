@@ -1,6 +1,7 @@
 import { Difficulty, Game, TGoal } from './goals';
 
-export type Pasta = TGoal[][];
+export type MutablePasta = TGoal[][];
+export type Pasta = ReadonlyArray<ReadonlyArray<TGoal>>;
 
 export default function createPasta(
   filteredPasta: Pasta,
@@ -20,7 +21,7 @@ export default function createPasta(
     })
   );
 
-  const finalPasta: Pasta = [];
+  const finalPasta: MutablePasta = [];
   // add in all groups for each non-general difficulty
   goalsByDifficultyAndGame.forEach((gameToGoals, difficulty) => {
     const groupCount = difficultyCount.get(difficulty) ?? 0;

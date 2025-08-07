@@ -6,14 +6,16 @@ import {
   Card,
   Checkbox,
   Container,
+  Group,
   JsonInput,
   SegmentedControl,
   Stack,
   Table,
   Text,
   TextInput,
+  Tooltip,
 } from '@mantine/core';
-import { Pasta } from './createPasta';
+import createPasta, { Pasta } from './createPasta';
 import GameChecker from './GameChecker';
 import { Game, GAME_NAMES, ORDERED_PROPER_GAMES } from './goals';
 import PastaFilter from './PastaFilter';
@@ -30,6 +32,7 @@ export default function CreateBoard() {
 
   const [customizedPasta, setCustomizedPasta] = useState<null | Pasta>(null);
 
+  const [randomizeGroupings, setRandomizeGroupings] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
 
   const [roomName, setRoomName] = useState('');
@@ -95,11 +98,34 @@ export default function CreateBoard() {
             </Text>
           )}
           {(isEligibleForCustomizedPasta || variant === 'Game Names') && (
-            <Checkbox
-              checked={showFilters}
-              label="Show customization options"
-              onChange={(event) => setShowFilters(event.currentTarget.checked)}
-            />
+            <Group>
+              {variant !== 'Game Names' && (
+                <Tooltip
+                  label={
+                    <span>
+                      Games will be divided into groups randomly while still respecting the
+                      <br />
+                      difficulty distribution, allowing for greater card variety than using the
+                      <br />
+                      default pasta. This option is always enabled when customizing games and
+                      <br />
+                      difficulty counts.
+                    </span>
+                  }
+                >
+                  <Checkbox
+                    checked={showFilters || randomizeGroupings}
+                    label="Randomize goal groupings"
+                    onChange={(event) => setRandomizeGroupings(event.currentTarget.checked)}
+                  />
+                </Tooltip>
+              )}
+              <Checkbox
+                checked={showFilters}
+                label="Customize games and difficulty counts"
+                onChange={(event) => setShowFilters(event.currentTarget.checked)}
+              />
+            </Group>
           )}
           {variant === 'Game Names' && showFilters && (
             <>
@@ -176,7 +202,21 @@ export default function CreateBoard() {
                     ? JSON.stringify(customizedPasta)
                     : metadata == null
                       ? custom
-                      : JSON.stringify(metadata.pasta);
+                      : randomizeGroupings
+                        ? JSON.stringify(
+                            createPasta(
+                              // TODO: Fix typing of pastas to be less strict
+                              metadata.pasta as any,
+                              new Map([
+                                ['easy', 5],
+                                ['medium', 7],
+                                ['hard', 6],
+                                ['veryhard', 2],
+                                ['general', 5],
+                              ])
+                            )
+                          )
+                        : JSON.stringify(metadata.pasta);
               try {
                 const url = await tryCreate(
                   roomName,
@@ -199,7 +239,9 @@ export default function CreateBoard() {
           >
             Create Bingosync Board
           </Button>
-          {(isUsingCustomizedPasta || (variant === 'Game Names' && showFilters)) && (
+          {(isUsingCustomizedPasta ||
+            (variant === 'Game Names' && showFilters) ||
+            (randomizeGroupings && metadata != null)) && (
             <Button
               disabled={isUsingCustomizedPasta && customizedPasta == null}
               onClick={() => {
@@ -208,7 +250,19 @@ export default function CreateBoard() {
                     ? Array.from(
                         checkState.entries().filter(([gameKey, checkState]) => checkState)
                       ).map(([gameKey, _]) => ({ name: GAME_NAMES[gameKey] }))
-                    : customizedPasta;
+                    : randomizeGroupings && !isUsingCustomizedPasta && metadata != null
+                      ? createPasta(
+                          // TODO: Fix typing of pastas to be less strict
+                          metadata.pasta as any,
+                          new Map([
+                            ['easy', 5],
+                            ['medium', 7],
+                            ['hard', 6],
+                            ['veryhard', 2],
+                            ['general', 5],
+                          ])
+                        )
+                      : customizedPasta;
                 if (data != null) {
                   navigator.clipboard.writeText(JSON.stringify(data, null, 4));
                 }

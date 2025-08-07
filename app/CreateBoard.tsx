@@ -123,6 +123,7 @@ export default function CreateBoard() {
                 setError(null);
                 setUrl(url);
                 setIsCreationInProgress(false);
+                window.open(url, '_blank');
               } catch (err: any) {
                 setIsCreationInProgress(false);
                 setUrl('');

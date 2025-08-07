@@ -15,14 +15,18 @@ import {
 } from '@mantine/core';
 import { Pasta } from './createPasta';
 import GameChecker from './GameChecker';
+import { Game, GAME_NAMES, ORDERED_PROPER_GAMES } from './goals';
 import PastaFilter from './PastaFilter';
 import { METADATA } from './pastas/metadata';
 
-const options = [...METADATA.map((d) => d.name), 'Custom'];
+const options = [...METADATA.map((d) => d.name), 'Game Names', 'Custom'];
 
 export default function CreateBoard() {
   const [variant, setVariant] = useState(options[0]);
   const [custom, setCustom] = useState('');
+  const [checkState, setCheckState] = useState<Map<Game, boolean>>(
+    new Map(ORDERED_PROPER_GAMES.map((key) => [key, true]))
+  );
 
   const [customizedPasta, setCustomizedPasta] = useState<null | Pasta>(null);
 
@@ -46,6 +50,8 @@ export default function CreateBoard() {
           year: 'numeric',
         })}
       </Text>
+    ) : variant === 'Game Names' ? (
+      <GameChecker checkState={checkState} setCheckState={setCheckState} />
     ) : (
       <JsonInput
         autosize
@@ -70,19 +76,47 @@ export default function CreateBoard() {
             <strong>Choose variant</strong>
           </Text>
           <SegmentedControl data={options} onChange={setVariant} value={variant} />
-          {description}
-          {metadata != null && isEligibleForCustomizedPasta && (
-            <>
-              <Checkbox
-                checked={showFilters}
-                label="Show customization options"
-                onChange={(event) => setShowFilters(event.currentTarget.checked)}
-              />
-              {showFilters && (
-                // TODO: Fix up the typing here to get rid of the any
-                <PastaFilter pasta={metadata.pasta as any} onChangePasta={setCustomizedPasta} />
-              )}
-            </>
+          {metadata != null && (
+            <Text size="sm">
+              Last synced:{' '}
+              {new Date(metadata.update_time * 1000).toLocaleString(undefined, {
+                month: 'numeric',
+                day: 'numeric',
+                year: 'numeric',
+              })}
+            </Text>
+          )}
+          {(isEligibleForCustomizedPasta || variant === 'Game Names') && (
+            <Checkbox
+              checked={showFilters}
+              label="Show customization options"
+              onChange={(event) => setShowFilters(event.currentTarget.checked)}
+            />
+          )}
+          {variant === 'Game Names' && showFilters && (
+            <GameChecker checkState={checkState} setCheckState={setCheckState} />
+          )}
+          {metadata != null && isEligibleForCustomizedPasta && showFilters && (
+            <PastaFilter
+              checkState={checkState}
+              setCheckState={setCheckState}
+              // TODO: Fix up the typing here to get rid of the any
+              pasta={metadata.pasta as any}
+              onChangePasta={setCustomizedPasta}
+            />
+          )}
+
+          {variant === 'Custom' && (
+            <JsonInput
+              autosize
+              label="Add your pasta here:"
+              maxRows={12}
+              minRows={2}
+              onChange={setCustom}
+              spellCheck={false}
+              validationError="Invalid JSON"
+              value={custom}
+            />
           )}
           <Text>
             <strong>Configure Room</strong>
@@ -113,13 +147,27 @@ export default function CreateBoard() {
             onClick={async () => {
               setIsCreationInProgress(true);
               const pasta =
-                isUsingCustomizedPasta && customizedPasta != null
-                  ? JSON.stringify(customizedPasta)
-                  : metadata == null
-                    ? custom
-                    : JSON.stringify(metadata.pasta);
+                variant === 'Game Names'
+                  ? JSON.stringify(
+                      showFilters
+                        ? Array.from(
+                            checkState.entries().filter(([gameKey, checkState]) => checkState)
+                          ).map(([gameKey, _]) => ({ name: GAME_NAMES[gameKey] }))
+                        : ORDERED_PROPER_GAMES.map((gameKey) => ({ name: GAME_NAMES[gameKey] }))
+                    )
+                  : isUsingCustomizedPasta && customizedPasta != null
+                    ? JSON.stringify(customizedPasta)
+                    : metadata == null
+                      ? custom
+                      : JSON.stringify(metadata.pasta);
               try {
-                const url = await tryCreate(roomName, password, isLockout, pasta);
+                const url = await tryCreate(
+                  roomName,
+                  password,
+                  isLockout,
+                  variant === 'Game Names',
+                  pasta
+                );
                 setError(null);
                 setUrl(url);
                 setIsCreationInProgress(false);
@@ -134,12 +182,18 @@ export default function CreateBoard() {
           >
             Create Bingosync Board
           </Button>
-          {isUsingCustomizedPasta && (
+          {(isUsingCustomizedPasta || (variant === 'Game Names' && showFilters)) && (
             <Button
-              disabled={customizedPasta == null}
+              disabled={isUsingCustomizedPasta && customizedPasta == null}
               onClick={() => {
-                if (customizedPasta != null) {
-                  navigator.clipboard.writeText(JSON.stringify(customizedPasta, null, 4));
+                const data =
+                  variant === 'Game Names'
+                    ? Array.from(
+                        checkState.entries().filter(([gameKey, checkState]) => checkState)
+                      ).map(([gameKey, _]) => ({ name: GAME_NAMES[gameKey] }))
+                    : customizedPasta;
+                if (data != null) {
+                  navigator.clipboard.writeText(JSON.stringify(data, null, 4));
                 }
               }}
             >
@@ -170,6 +224,7 @@ export default function CreateBoard() {
 async function tryCreate(
   roomName: string,
   password: string,
+  isGameNames: boolean,
   isLockout: boolean,
   pasta: string
 ): Promise<string> {
@@ -178,8 +233,12 @@ async function tryCreate(
     body: new URLSearchParams({
       room_name: roomName,
       passphrase: password,
+      nickname: 'ufo50bingobot',
+      game_type: '18',
+      variant_type: isGameNames ? '172' : '187',
       custom_json: pasta,
       lockout_mode: isLockout ? '2' : '1',
+      seed: '',
     }).toString(),
     headers: {
       'content-type': 'application/x-www-form-urlencoded',

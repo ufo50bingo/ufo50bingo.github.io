@@ -13,14 +13,13 @@ import {
 } from './goals';
 
 type Props = {
+  checkState: Map<Game, boolean>;
+  setCheckState: (newState: Map<Game, boolean>) => void;
   pasta: Pasta;
   onChangePasta: (newPasta: null | Pasta) => void;
 };
 
-export default function PastaFilter({ pasta, onChangePasta }: Props) {
-  const [checkState, setCheckState] = useState<Map<Game, boolean>>(
-    new Map(ORDERED_PROPER_GAMES.map((key) => [key, true]))
-  );
+export default function PastaFilter({ pasta, checkState, setCheckState, onChangePasta }: Props) {
   const [difficultyCount, setDifficultyCount] = useState<Map<Difficulty, number>>(
     new Map([
       ['easy', 5],
@@ -43,9 +42,6 @@ export default function PastaFilter({ pasta, onChangePasta }: Props) {
     [pasta, checkState]
   );
 
-  // temp
-  createPasta(filteredPasta, difficultyCount);
-
   const availableGoalDifficultyCounts = useMemo(() => {
     const counts = new Map<Difficulty, number>([]);
     filteredPasta.forEach((group) =>
@@ -66,9 +62,6 @@ export default function PastaFilter({ pasta, onChangePasta }: Props) {
   }, [hasWrongSum, hasTooFewGoals, filteredPasta, difficultyCount]);
   return (
     <Stack>
-      <Text>
-        <strong>Select included games</strong>
-      </Text>
       <GameChecker checkState={checkState} setCheckState={setCheckState} />
       <Text>
         <strong>Choose difficulty distribution</strong>

@@ -90,9 +90,12 @@ export default function HomePage() {
         <Tabs.Tab value="settings" leftSection={<IconSettings size={12} />}>
           Settings
         </Tabs.Tab>
-        <Tabs.Tab value="boardAnalyzer" leftSection={<IconBorderAll size={12} />}>
-          Board Analyzer
-        </Tabs.Tab>
+        {/* disabling board analyzer until it's ready */}
+        {false && (
+          <Tabs.Tab value="boardAnalyzer" leftSection={<IconBorderAll size={12} />}>
+            Board Analyzer
+          </Tabs.Tab>
+        )}
       </Tabs.List>
 
       <Tabs.Panel value="createBoard">

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Alert, Checkbox, Group, NumberInput, SimpleGrid, Stack, Text } from '@mantine/core';
 import createPasta, { Pasta } from './createPasta';
 import GameChecker from './GameChecker';
+import getDefaultDifficulties from './getDefaultDifficulties';
 import {
   Difficulty,
   DIFFICULTY_NAMES,
@@ -21,13 +22,7 @@ type Props = {
 
 export default function PastaFilter({ pasta, checkState, setCheckState, onChangePasta }: Props) {
   const [difficultyCount, setDifficultyCount] = useState<Map<Difficulty, number>>(
-    new Map([
-      ['easy', 5],
-      ['medium', 7],
-      ['hard', 6],
-      ['veryhard', 2],
-      ['general', 5],
-    ])
+    getDefaultDifficulties(pasta)
   );
   const difficultySum = difficultyCount.values().reduce((acc, next) => acc + next, 0);
 

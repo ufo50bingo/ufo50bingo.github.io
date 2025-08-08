@@ -17,6 +17,7 @@ import {
 } from '@mantine/core';
 import createPasta, { Pasta } from './createPasta';
 import GameChecker from './GameChecker';
+import getDefaultDifficulties from './getDefaultDifficulties';
 import { Game, GAME_NAMES, ORDERED_PROPER_GAMES } from './goals';
 import PastaFilter from './PastaFilter';
 import { METADATA } from './pastas/metadata';
@@ -97,13 +98,7 @@ export default function CreateBoard() {
         ? createPasta(
             // TODO: Fix typing of pastas to be less strict
             metadata.pasta as any,
-            new Map([
-              ['easy', 5],
-              ['medium', 7],
-              ['hard', 6],
-              ['veryhard', 2],
-              ['general', 5],
-            ])
+            getDefaultDifficulties(metadata.pasta as any)
           )
         : metadata.pasta;
     } else {
@@ -174,6 +169,7 @@ export default function CreateBoard() {
           )}
           {metadata != null && isEligibleForCustomizedPasta && showFilters && (
             <PastaFilter
+              key={variant}
               checkState={checkState}
               setCheckState={setCheckState}
               // TODO: Fix up the typing here to get rid of the any

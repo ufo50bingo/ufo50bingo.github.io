@@ -6,8 +6,8 @@ import { ColorSchemeScript, mantineHtmlProps, MantineProvider } from '@mantine/c
 import { theme } from '../theme';
 
 export const metadata = {
-  title: 'UFO 50 Bingo Practice',
-  description: 'Practice some random goals',
+  title: 'UFO 50 Bingo',
+  description: 'Organize games or practice goals!',
 };
 
 export default function RootLayout({ children }: { children: any }) {

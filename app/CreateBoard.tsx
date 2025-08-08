@@ -32,7 +32,7 @@ export default function CreateBoard() {
 
   const [customizedPasta, setCustomizedPasta] = useState<null | Pasta>(null);
 
-  const [randomizeGroupings, setRandomizeGroupings] = useState(false);
+  const [randomizeGroupings, setRandomizeGroupings] = useState(true);
   const [showFilters, setShowFilters] = useState(false);
 
   const [roomName, setRoomName] = useState('');
@@ -78,6 +78,39 @@ export default function CreateBoard() {
   const hasLessThan25Games = checkedGameCount < 25;
   const isEligibleForCustomizedPasta = variant === 'Standard' || variant === 'Spicy';
   const isUsingCustomizedPasta = isEligibleForCustomizedPasta && showFilters;
+
+  const getSerializedPasta = (pretty: boolean) => {
+    if (variant === 'Custom') {
+      return custom;
+    }
+    let structuredPasta;
+    if (variant === 'Game Names') {
+      structuredPasta = showFilters
+        ? Array.from(checkState.entries().filter(([gameKey, checkState]) => checkState)).map(
+            ([gameKey, _]) => ({ name: GAME_NAMES[gameKey] })
+          )
+        : ORDERED_PROPER_GAMES.map((gameKey) => ({ name: GAME_NAMES[gameKey] }));
+    } else if (isUsingCustomizedPasta && customizedPasta != null) {
+      structuredPasta = customizedPasta;
+    } else if (metadata != null) {
+      structuredPasta = randomizeGroupings
+        ? createPasta(
+            // TODO: Fix typing of pastas to be less strict
+            metadata.pasta as any,
+            new Map([
+              ['easy', 5],
+              ['medium', 7],
+              ['hard', 6],
+              ['veryhard', 2],
+              ['general', 5],
+            ])
+          )
+        : metadata.pasta;
+    } else {
+      return 'Error constructing pasta';
+    }
+    return pretty ? JSON.stringify(structuredPasta, null, 4) : JSON.stringify(structuredPasta);
+  };
 
   return (
     <Container my="md">
@@ -189,41 +222,14 @@ export default function CreateBoard() {
             }
             onClick={async () => {
               setIsCreationInProgress(true);
-              const pasta =
-                variant === 'Game Names'
-                  ? JSON.stringify(
-                      showFilters
-                        ? Array.from(
-                            checkState.entries().filter(([gameKey, checkState]) => checkState)
-                          ).map(([gameKey, _]) => ({ name: GAME_NAMES[gameKey] }))
-                        : ORDERED_PROPER_GAMES.map((gameKey) => ({ name: GAME_NAMES[gameKey] }))
-                    )
-                  : isUsingCustomizedPasta && customizedPasta != null
-                    ? JSON.stringify(customizedPasta)
-                    : metadata == null
-                      ? custom
-                      : randomizeGroupings
-                        ? JSON.stringify(
-                            createPasta(
-                              // TODO: Fix typing of pastas to be less strict
-                              metadata.pasta as any,
-                              new Map([
-                                ['easy', 5],
-                                ['medium', 7],
-                                ['hard', 6],
-                                ['veryhard', 2],
-                                ['general', 5],
-                              ])
-                            )
-                          )
-                        : JSON.stringify(metadata.pasta);
+
               try {
                 const url = await tryCreate(
                   roomName,
                   password,
                   variant === 'Game Names',
                   isLockout,
-                  pasta
+                  getSerializedPasta(false)
                 );
                 setError(null);
                 setUrl(url);
@@ -239,38 +245,14 @@ export default function CreateBoard() {
           >
             Create Bingosync Board
           </Button>
-          {(isUsingCustomizedPasta ||
-            (variant === 'Game Names' && showFilters) ||
-            (randomizeGroupings && metadata != null)) && (
-            <Button
-              disabled={isUsingCustomizedPasta && customizedPasta == null}
-              onClick={() => {
-                const data =
-                  variant === 'Game Names'
-                    ? Array.from(
-                        checkState.entries().filter(([gameKey, checkState]) => checkState)
-                      ).map(([gameKey, _]) => ({ name: GAME_NAMES[gameKey] }))
-                    : randomizeGroupings && !isUsingCustomizedPasta && metadata != null
-                      ? createPasta(
-                          // TODO: Fix typing of pastas to be less strict
-                          metadata.pasta as any,
-                          new Map([
-                            ['easy', 5],
-                            ['medium', 7],
-                            ['hard', 6],
-                            ['veryhard', 2],
-                            ['general', 5],
-                          ])
-                        )
-                      : customizedPasta;
-                if (data != null) {
-                  navigator.clipboard.writeText(JSON.stringify(data, null, 4));
-                }
-              }}
-            >
-              Copy Customized Pasta to Clipboard
-            </Button>
-          )}
+          <Button
+            disabled={isUsingCustomizedPasta && customizedPasta == null}
+            onClick={() => {
+              navigator.clipboard.writeText(getSerializedPasta(true));
+            }}
+          >
+            Copy Pasta to Clipboard
+          </Button>
           {url !== '' && (
             <Alert variant="light" color="green" title="Success!" icon={<IconCheck />}>
               Your bingo board is available at{' '}

@@ -6,6 +6,7 @@ import {
   IconDeviceGamepad,
   IconFilter,
   IconPlaylistAdd,
+  IconScript,
   IconSettings,
   IconVs,
 } from '@tabler/icons-react';
@@ -17,6 +18,7 @@ import CreateBoard from './CreateBoard';
 import { db } from './db';
 import Playlist from './Playlist';
 import Practice from './Practice';
+import Resources from './Resources';
 import Settings, { NextGoalChoice } from './Settings';
 import useGoalStats, { GoalStats } from './useGoalStats';
 import useSelectedGoals from './useSelectedGoals';
@@ -78,6 +80,9 @@ export default function HomePage() {
         <Tabs.Tab value="createBoard" leftSection={<IconVs size={12} />}>
           Create Board
         </Tabs.Tab>
+        <Tabs.Tab value="resources" leftSection={<IconScript size={12} />}>
+          Resources
+        </Tabs.Tab>
         <Tabs.Tab value="practice" leftSection={<IconDeviceGamepad size={12} />}>
           Practice
         </Tabs.Tab>
@@ -100,6 +105,9 @@ export default function HomePage() {
 
       <Tabs.Panel value="createBoard">
         <CreateBoard />
+      </Tabs.Panel>
+      <Tabs.Panel value="resources">
+        <Resources />
       </Tabs.Panel>
       <Tabs.Panel value="practice">
         <Practice

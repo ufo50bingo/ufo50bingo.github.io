@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { IconCheck, IconExclamationMark } from '@tabler/icons-react';
+import { IconCheck, IconDots, IconExclamationMark } from '@tabler/icons-react';
 import {
+  ActionIcon,
   Alert,
   Button,
   Card,
@@ -8,6 +9,7 @@ import {
   Container,
   Group,
   JsonInput,
+  Menu,
   SegmentedControl,
   Stack,
   Table,
@@ -22,7 +24,8 @@ import { Game, GAME_NAMES, ORDERED_PROPER_GAMES } from './goals';
 import PastaFilter from './PastaFilter';
 import { METADATA } from './pastas/metadata';
 
-const options = [...METADATA.map((d) => d.name), 'Game Names', 'Custom'];
+const options = [...METADATA.filter((d) => !d.isMenu).map((d) => d.name), 'Game Names', 'Custom'];
+const menuOptions = METADATA.filter((d) => d.isMenu).map((d) => d.name);
 
 export default function CreateBoard() {
   const [variant, setVariant] = useState(options[0]);
@@ -114,7 +117,27 @@ export default function CreateBoard() {
           <Text>
             <strong>Choose variant</strong>
           </Text>
-          <SegmentedControl data={options} onChange={setVariant} value={variant} />
+          <Group gap="sm">
+            <SegmentedControl
+              style={{ flexGrow: 1 }}
+              data={options}
+              fullWidth={true}
+              onChange={setVariant}
+              value={variant}
+            />
+            <Menu shadow="md" width={200}>
+              <Menu.Target>
+                <ActionIcon onClick={() => {}} variant="default">
+                  <IconDots size={16} />
+                </ActionIcon>
+              </Menu.Target>
+              <Menu.Dropdown>
+                {menuOptions.map((option) => (
+                  <Menu.Item onClick={() => setVariant(option)}>{option}</Menu.Item>
+                ))}
+              </Menu.Dropdown>
+            </Menu>
+          </Group>
           {metadata != null && (
             <Text size="sm">
               Last synced:{' '}

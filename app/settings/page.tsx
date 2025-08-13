@@ -13,15 +13,10 @@ import {
   Text,
   useMantineColorScheme,
 } from '@mantine/core';
-import { useAppContext } from '../AppContextProvider';
+import { NextGoalChoice, useAppContext } from '../AppContextProvider';
 import ExportCSV from '../ExportCSV';
 import ImportCSV from '../ImportCSV';
 import MigrateHistory from '../MigrateHistory';
-
-export enum NextGoalChoice {
-  RANDOM = 'RANDOM',
-  PREFER_FEWER_ATTEMPTS = 'PREFER_FEWER_ATTEMPTS',
-}
 
 export default function Settings() {
   const { colorScheme, setColorScheme } = useMantineColorScheme();

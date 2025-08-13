@@ -1,20 +1,24 @@
 'use client';
 
+import { useCallback } from 'react';
 import { Container, Stack } from '@mantine/core';
 import AllAttempts from './AllAttempts';
-import { AttemptRow } from './db';
+import { useAppContext } from './AppContextProvider';
+import { db } from './db';
 import Goal from './Goal';
-import { GoalStats } from './useGoalStats';
 
-type Props = {
-  attempts: AttemptRow[];
-  goalStats: Map<string, GoalStats>;
-  goToNextGoal: () => void;
-  goal: string;
-  setGoal: (goal: string) => void;
-};
+export default function Practice() {
+  const { attempts, goalStats, goal, setGoal, playlist, getRandomGoal } = useAppContext();
 
-export default function Practice({ attempts, goalStats, goToNextGoal, goal, setGoal }: Props) {
+  const goToNextGoal = useCallback(async () => {
+    if (playlist.length > 0) {
+      setGoal(playlist[0].goal);
+      db.playlist.delete(playlist[0].id);
+    } else {
+      setGoal(getRandomGoal());
+    }
+  }, [playlist, getRandomGoal, goal, setGoal]);
+
   return (
     <Container my="md">
       <Stack>

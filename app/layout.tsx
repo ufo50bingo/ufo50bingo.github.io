@@ -4,6 +4,7 @@ import React from 'react';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { ColorSchemeScript, mantineHtmlProps, MantineProvider } from '@mantine/core';
 import { theme } from '../theme';
+import { AppContextProvider } from './AppContextProvider';
 
 export const metadata = {
   title: 'UFO 50 Bingo',
@@ -22,7 +23,9 @@ export default function RootLayout({ children }: { children: any }) {
         />
       </head>
       <body>
-        <MantineProvider theme={theme}>{children}</MantineProvider>
+        <MantineProvider theme={theme}>
+          <AppContextProvider>{children}</AppContextProvider>
+        </MantineProvider>
       </body>
       <GoogleAnalytics gaId="G-FP1JEFSLS3" />
     </html>

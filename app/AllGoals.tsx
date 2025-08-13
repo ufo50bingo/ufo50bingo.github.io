@@ -1,6 +1,6 @@
 'use client';
 
-import { Dispatch, SetStateAction, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { IconChevronDown, IconChevronUp, IconPlayerPlay, IconSelector } from '@tabler/icons-react';
 import {
   ActionIcon,
@@ -13,20 +13,16 @@ import {
   Tooltip,
   UnstyledButton,
 } from '@mantine/core';
-import { AttemptRow, db } from './db';
+import { useAppContext } from './AppContextProvider';
+import { db } from './db';
 import Duration from './Duration';
 import { compareByDifficulty, SORTED_FLAT_GOALS } from './goals';
 import PlaylistAddButton from './PlaylistAddButton';
-import { GoalStats } from './useGoalStats';
 
-type Props = {
-  attempts: AttemptRow[];
-  goalStats: Map<string, GoalStats>;
-  selectedGoals: Set<string>;
-  onTryGoal: (goal: string) => void;
-};
+export default function AllGoals() {
+  const { goalStats, selectedGoals } = useAppContext();
+  const onTryGoal = (goalName: string) => {};
 
-export default function AllGoals({ attempts, goalStats, selectedGoals, onTryGoal }: Props) {
   const allChecked = SORTED_FLAT_GOALS.every((goal) => selectedGoals.has(goal.name));
   const allUnchecked = SORTED_FLAT_GOALS.every((goal) => !selectedGoals.has(goal.name));
 

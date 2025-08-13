@@ -3,14 +3,12 @@
 import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd';
 import { IconGripVertical, IconPlayerPlay, IconX } from '@tabler/icons-react';
 import { ActionIcon, Container, Table } from '@mantine/core';
+import { useAppContext } from './AppContextProvider';
 import { db, PlaylistRow } from './db';
 import { PRIORITY_MULTIPLIER } from './PlaylistAddButton';
 
-type Props = {
-  playlist: PlaylistRow[];
-};
-
-export default function Playlist({ playlist }: Props) {
+export default function Playlist() {
+  const { playlist } = useAppContext();
   return (
     <Container my="md">
       <DragDropContext

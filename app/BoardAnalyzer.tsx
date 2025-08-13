@@ -2,17 +2,16 @@ import { useCallback, useState } from 'react';
 import { IconInfoCircle } from '@tabler/icons-react';
 import chroma from 'chroma-js';
 import { Alert, Button, Container, Group, Stack, Text, TextInput } from '@mantine/core';
+import { useAppContext } from './AppContextProvider';
 import { GoalStats } from './useGoalStats';
 
 interface CellResponse {
   name: string;
 }
 
-type Props = {
-  goalStats: Map<string, GoalStats>;
-};
+export default function BoardAnalyzer() {
+  const { goalStats } = useAppContext();
 
-export default function BoardAnalyzer({ goalStats }: Props) {
   const [boardID, setBoardID] = useState<string>('');
   const [board, setBoard] = useState<string[][] | null>(null);
 

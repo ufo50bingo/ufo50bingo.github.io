@@ -13,10 +13,10 @@ import {
   Text,
   useMantineColorScheme,
 } from '@mantine/core';
-import { useAppContext } from './AppContextProvider';
-import ExportCSV from './ExportCSV';
-import ImportCSV from './ImportCSV';
-import MigrateHistory from './MigrateHistory';
+import { useAppContext } from '../AppContextProvider';
+import ExportCSV from '../ExportCSV';
+import ImportCSV from '../ImportCSV';
+import MigrateHistory from '../MigrateHistory';
 
 export enum NextGoalChoice {
   RANDOM = 'RANDOM',

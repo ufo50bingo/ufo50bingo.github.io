@@ -3,7 +3,7 @@
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { AttemptRow, db, PlaylistRow } from './db';
-import { NextGoalChoice } from './Settings';
+import { NextGoalChoice } from './settings/page';
 import useGoalStats, { GoalStats } from './useGoalStats';
 import useSelectedGoals from './useSelectedGoals';
 

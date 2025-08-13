@@ -13,11 +13,11 @@ import {
   Tooltip,
   UnstyledButton,
 } from '@mantine/core';
-import { useAppContext } from './AppContextProvider';
-import { db } from './db';
-import Duration from './Duration';
-import { compareByDifficulty, SORTED_FLAT_GOALS } from './goals';
-import PlaylistAddButton from './PlaylistAddButton';
+import { useAppContext } from '../AppContextProvider';
+import { db } from '../db';
+import Duration from '../Duration';
+import { compareByDifficulty, SORTED_FLAT_GOALS } from '../goals';
+import PlaylistAddButton from '../PlaylistAddButton';
 
 export default function AllGoals() {
   const { goalStats, selectedGoals } = useAppContext();

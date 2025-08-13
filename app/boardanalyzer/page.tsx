@@ -1,9 +1,10 @@
+'use client';
+
 import { useCallback, useState } from 'react';
 import { IconInfoCircle } from '@tabler/icons-react';
 import chroma from 'chroma-js';
 import { Alert, Button, Container, Group, Stack, Text, TextInput } from '@mantine/core';
 import { useAppContext } from '../AppContextProvider';
-import { GoalStats } from '../useGoalStats';
 
 interface CellResponse {
   name: string;

@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { IconChevronDown, IconChevronUp, IconPlayerPlay, IconSelector } from '@tabler/icons-react';
 import {
   ActionIcon,
@@ -20,8 +21,12 @@ import { compareByDifficulty, SORTED_FLAT_GOALS } from '../goals';
 import PlaylistAddButton from '../PlaylistAddButton';
 
 export default function AllGoals() {
-  const { goalStats, selectedGoals } = useAppContext();
-  const onTryGoal = (goalName: string) => {};
+  const router = useRouter();
+  const { goalStats, selectedGoals, setGoal } = useAppContext();
+  const onTryGoal = (goal: string) => {
+    setGoal(goal);
+    router.push('/practice');
+  };
 
   const allChecked = SORTED_FLAT_GOALS.every((goal) => selectedGoals.has(goal.name));
   const allUnchecked = SORTED_FLAT_GOALS.every((goal) => !selectedGoals.has(goal.name));

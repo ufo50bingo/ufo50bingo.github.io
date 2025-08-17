@@ -8,11 +8,16 @@ export default function Resources() {
       <Card shadow="sm" padding="sm" radius="md" withBorder>
         <List>
           <List.Item>
+            <a href="https://docs.google.com/document/d/1uMWL5f_qtWMTnXwVWRkc8EB29St83zTF6qCghLpVUe8/edit?tab=t.0#heading=h.h24kstbbrpiw">
+              Variants and Overview
+            </a>
+          </List.Item>
+          <List.Item>
             <a
               href="https://docs.google.com/document/d/1VRHljWeJ3lHuN3ou-9R0kMgwoZeCcaEPBsRCI1nWEig/edit?tab=t.0#heading=h.us0d6jom1jp"
               target="_blank"
             >
-              Rules
+              Standard Rules
             </a>
           </List.Item>
           <List.Item>
@@ -45,6 +50,12 @@ export default function Resources() {
               target="_blank"
             >
               Bingo League Season 1 (Ended May 4, 2025)
+            </a>
+          </List.Item>
+          <List.Item>
+            <a href="https://gretgor.itch.io/ufo50-bingo-training-dummy">
+              Bingo “training dummy” by Gretgor. Play vs a CPU that also tries to complete goals on
+              a board
             </a>
           </List.Item>
         </List>

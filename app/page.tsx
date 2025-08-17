@@ -10,6 +10,7 @@ import {
   Checkbox,
   Container,
   Group,
+  HoverCard,
   JsonInput,
   Menu,
   SegmentedControl,
@@ -25,13 +26,14 @@ import GameChecker from './GameChecker';
 import getDefaultDifficulties from './getDefaultDifficulties';
 import { Game, GAME_NAMES, ORDERED_PROPER_GAMES } from './goals';
 import PastaFilter from './PastaFilter';
-import { METADATA } from './pastas/metadata';
+import { METADATA, Variant, VariantMetadata } from './pastas/metadata';
+import VariantHoverCard from './VariantHoverCard';
 
-const options = [...METADATA.filter((d) => !d.isMenu).map((d) => d.name), 'Game Names', 'Custom'];
-const menuOptions = METADATA.filter((d) => d.isMenu).map((d) => d.name);
+const options: ReadonlyArray<VariantMetadata> = METADATA.filter((d) => !d.isMenu);
+const menuOptions: ReadonlyArray<VariantMetadata> = METADATA.filter((d) => d.isMenu);
 
 export default function CreateBoard() {
-  const [variant, setVariant] = useState(options[0]);
+  const [variant, setVariant] = useState<Variant>(options[0].name);
   const [custom, setCustom] = useState('');
   const [checkState, setCheckState] = useState<Map<Game, boolean>>(
     new Map(ORDERED_PROPER_GAMES.map((key) => [key, true]))
@@ -50,30 +52,6 @@ export default function CreateBoard() {
   const [error, setError] = useState<Error | null>(null);
 
   const metadata = METADATA.find((d) => d.name === variant);
-  const description =
-    metadata != null ? (
-      <Text size="sm">
-        Last synced:{' '}
-        {new Date(metadata.update_time * 1000).toLocaleString(undefined, {
-          month: 'numeric',
-          day: 'numeric',
-          year: 'numeric',
-        })}
-      </Text>
-    ) : variant === 'Game Names' ? (
-      <GameChecker checkState={checkState} setCheckState={setCheckState} />
-    ) : (
-      <JsonInput
-        autosize
-        label="Add your pasta here:"
-        maxRows={12}
-        minRows={2}
-        onChange={setCustom}
-        spellCheck={false}
-        validationError="Invalid JSON"
-        value={custom}
-      />
-    );
 
   // for some reason it doesn't like checkState.values().filter(...)
   let checkedGameCount = 0;
@@ -110,7 +88,7 @@ export default function CreateBoard() {
       );
     } else if (isUsingCustomizedPasta && customizedPasta != null) {
       structuredPasta = customizedPasta;
-    } else if (metadata != null) {
+    } else if (metadata?.pasta != null) {
       structuredPasta = randomizeGroupings
         ? createPasta(
             // TODO: Fix typing of pastas to be less strict
@@ -134,9 +112,12 @@ export default function CreateBoard() {
           <Group gap="sm">
             <SegmentedControl
               style={{ flexGrow: 1 }}
-              data={options}
+              data={options.map((option) => ({
+                value: option.name,
+                label: <VariantHoverCard metadata={option} />,
+              }))}
               fullWidth={true}
-              onChange={setVariant}
+              onChange={setVariant as unknown as (value: string) => void}
               value={variant}
             />
             <Menu shadow="md" width={200}>
@@ -147,12 +128,14 @@ export default function CreateBoard() {
               </Menu.Target>
               <Menu.Dropdown>
                 {menuOptions.map((option) => (
-                  <Menu.Item onClick={() => setVariant(option)}>{option}</Menu.Item>
+                  <Menu.Item key={option.name} onClick={() => setVariant(option.name)}>
+                    <VariantHoverCard metadata={option} />
+                  </Menu.Item>
                 ))}
               </Menu.Dropdown>
             </Menu>
           </Group>
-          {metadata != null && (
+          {metadata?.update_time != null && (
             <Text size="sm">
               Last synced:{' '}
               {new Date(metadata.update_time * 1000).toLocaleString(undefined, {

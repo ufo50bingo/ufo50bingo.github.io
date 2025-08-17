@@ -20,7 +20,13 @@ export const METADATA = [
         </span>
         <a
           target="_blank"
-          href="https://docs.google.com/document/d/1VRHljWeJ3lHuN3ou-9R0kMgwoZeCcaEPBsRCI1nWEig/edit?tab=t.0#heading=h.us0d6jom1jp"
+          href="https://docs.google.com/document/d/1XyEh20vdf7jtfYW94iIRHmf5YOQ0B-lZ2yh9lJjMMbM/edit?usp=sharing"
+        >
+          View the bingo overview document, including full goal list and changelog, here.
+        </a>
+              <a
+          target="_blank"
+          href="https://docs.google.com/document/d/1VRHljWeJ3lHuN3ou-9R0kMgwoZeCcaEPBsRCI1nWEig/edit?usp=sharing"
         >
           View the full rules here.
         </a>
@@ -30,9 +36,6 @@ export const METADATA = [
           <List.Item>Tested and revised for fairness and goal quality</List.Item>
           <List.Item>Overseen by bingo admins</List.Item>
         </List>
-        <Text size="xs">
-          <em>Created by Matt</em>
-        </Text>
       </Stack>
     ),
   },
@@ -219,3 +222,4 @@ export const METADATA = [
 
 export type VariantMetadata = (typeof METADATA)[number];
 export type Variant = VariantMetadata['name'];
+

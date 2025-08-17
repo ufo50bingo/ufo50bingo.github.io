@@ -1,6 +1,6 @@
 export const STANDARD = [
   [
-    { name: 'BARBUTA: Collect the reward from a black skull', types: ['barbuta', 'easy'] },
+    { name: 'BARBUTA: Collect the reward from a green skull', types: ['barbuta', 'easy'] },
     { name: 'BARBUTA: Speak to 3 different Bean NPCs', types: ['barbuta', 'easy'] },
     {
       name: 'BUG HUNTER: Get 4 kills in one job by pushing bugs into pits',
@@ -834,4 +834,5 @@ export const STANDARD = [
     },
   ],
 ] as const;
+
 

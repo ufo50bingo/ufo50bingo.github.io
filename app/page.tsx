@@ -180,17 +180,10 @@ export default function CreateBoard() {
               />
             </Group>
           )}
-          {variant === 'Game Names' && showFilters && (
-            <>
-              <GameChecker checkState={checkState} setCheckState={setCheckState} />
-              {hasLessThan25Games && (
-                <Alert
-                  variant="light"
-                  color="red"
-                  title="Error: You must select at least 25 games"
-                />
-              )}
-            </>
+          {(variant === 'Blitz' || variant === 'Nozzlo' || variant === 'Game Names') &&
+            showFilters && <GameChecker checkState={checkState} setCheckState={setCheckState} />}
+          {variant === 'Game Names' && showFilters && hasLessThan25Games && (
+            <Alert variant="light" color="red" title="Error: You must select at least 25 games" />
           )}
           {metadata != null && isEligibleForCustomizedPasta && showFilters && (
             <PastaFilter

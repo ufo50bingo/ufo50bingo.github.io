@@ -367,10 +367,4 @@ export const BLITZ = [
 	{"name": "AVIANOS: Enter combat with extra reserves (>40 units)", "types": ["avianos"]},
 	{"name": "Get an extra life in 3 different games", "types": ["general"]}
   ]
-]
-
-
-
-
-as const;
-
+] as const;

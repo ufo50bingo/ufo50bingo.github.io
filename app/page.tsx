@@ -20,6 +20,7 @@ import {
   Tooltip,
 } from '@mantine/core';
 import createPasta, { Pasta } from './createPasta';
+import createPastaWithoutDifficulty from './createPastaWithoutDifficulty';
 import GameChecker from './GameChecker';
 import getDefaultDifficulties from './getDefaultDifficulties';
 import { Game, GAME_NAMES, ORDERED_PROPER_GAMES } from './goals';
@@ -83,6 +84,7 @@ export default function CreateBoard() {
   });
   const hasLessThan25Games = checkedGameCount < 25;
   const isEligibleForCustomizedPasta = variant === 'Standard' || variant === 'Spicy';
+  const isEligibleForCustomizedPastaWithoutDifficulty = variant === 'Nozzlo' || variant === 'Blitz';
   const isUsingCustomizedPasta = isEligibleForCustomizedPasta && showFilters;
 
   const getSerializedPasta = (pretty: boolean) => {
@@ -96,6 +98,16 @@ export default function CreateBoard() {
             ([gameKey, _]) => ({ name: GAME_NAMES[gameKey] })
           )
         : ORDERED_PROPER_GAMES.map((gameKey) => ({ name: GAME_NAMES[gameKey] }));
+    } else if (
+      (showFilters || randomizeGroupings) &&
+      isEligibleForCustomizedPastaWithoutDifficulty &&
+      metadata != null
+    ) {
+      structuredPasta = createPastaWithoutDifficulty(
+        // TODO: Fix typing of pastas to be less strict
+        metadata.pasta as any,
+        showFilters ? checkState : null
+      );
     } else if (isUsingCustomizedPasta && customizedPasta != null) {
       structuredPasta = customizedPasta;
     } else if (metadata != null) {
@@ -150,7 +162,9 @@ export default function CreateBoard() {
               })}
             </Text>
           )}
-          {(isEligibleForCustomizedPasta || variant === 'Game Names') && (
+          {(isEligibleForCustomizedPasta ||
+            isEligibleForCustomizedPastaWithoutDifficulty ||
+            variant === 'Game Names') && (
             <Group>
               {variant !== 'Game Names' && (
                 <Tooltip
@@ -175,12 +189,16 @@ export default function CreateBoard() {
               )}
               <Checkbox
                 checked={showFilters}
-                label="Customize games and difficulty counts"
+                label={
+                  isEligibleForCustomizedPasta
+                    ? 'Customize games and difficulty counts'
+                    : 'Customize games'
+                }
                 onChange={(event) => setShowFilters(event.currentTarget.checked)}
               />
             </Group>
           )}
-          {(variant === 'Blitz' || variant === 'Nozzlo' || variant === 'Game Names') &&
+          {(isEligibleForCustomizedPastaWithoutDifficulty || variant === 'Game Names') &&
             showFilters && <GameChecker checkState={checkState} setCheckState={setCheckState} />}
           {variant === 'Game Names' && showFilters && hasLessThan25Games && (
             <Alert variant="light" color="red" title="Error: You must select at least 25 games" />

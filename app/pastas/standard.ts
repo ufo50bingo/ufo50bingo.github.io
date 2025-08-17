@@ -834,5 +834,3 @@ export const STANDARD = [
     },
   ],
 ] as const;
-
-

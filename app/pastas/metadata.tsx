@@ -24,7 +24,7 @@ export const METADATA = [
         >
           View the bingo overview document, including full goal list and changelog, here.
         </a>
-              <a
+        <a
           target="_blank"
           href="https://docs.google.com/document/d/1VRHljWeJ3lHuN3ou-9R0kMgwoZeCcaEPBsRCI1nWEig/edit?usp=sharing"
         >
@@ -222,4 +222,3 @@ export const METADATA = [
 
 export type VariantMetadata = (typeof METADATA)[number];
 export type Variant = VariantMetadata['name'];
-

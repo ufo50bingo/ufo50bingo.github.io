@@ -17,7 +17,7 @@ import {
 import { useAppContext } from '../AppContextProvider';
 import { db } from '../db';
 import Duration from '../Duration';
-import { compareByDifficulty, SORTED_FLAT_GOALS } from '../goals';
+import { compareByDifficulty, DIFFICULTY_NAMES, GAME_NAMES, SORTED_FLAT_GOALS } from '../goals';
 import PlaylistAddButton from '../PlaylistAddButton';
 
 export default function AllGoals() {
@@ -176,8 +176,8 @@ export default function AllGoals() {
                   />
                 </Table.Td>
                 <Table.Td>{goal.name}</Table.Td>
-                <Table.Td>{goal.types[0]}</Table.Td>
-                <Table.Td>{goal.types[1]}</Table.Td>
+                <Table.Td>{GAME_NAMES[goal.types[0]]}</Table.Td>
+                <Table.Td>{DIFFICULTY_NAMES[goal.types[1]]}</Table.Td>
                 <Table.Td>
                   {averageDuration == null ? '-' : <Duration duration={averageDuration} />}
                 </Table.Td>
